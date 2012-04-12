@@ -1,0 +1,21 @@
+=flash[:errors]
+%div{:style=>"display:none;", :id => "mess_content"} Идет формирование графика
+%div{:class => "dialog_form", :style => "width:400px;"}
+  %div{:class => "dialog_forms_title"} Заполнение графиков работы
+  %div{:id=>"dialog_form_content"}
+    = form_tag filling_schedule_of_workings_path do
+      %p{:style=>"margin:0;width:100%"}
+        = label_tag 'C '
+        = text_field_tag 'date_begin',nil,:size => 10
+        = label_tag 'по'
+        = text_field_tag 'date_end',nil,:size => 10
+      %br
+      %p{:style=>"margin:0;width:100%"}
+        = label_tag 'График'
+        = select_tag 'schedule_list',nil,:style=>"width:200px;"
+      %div{:style=>"height:25px;border-top:1px solid #CCC;margin:5px 0;"}
+        = submit_tag "Выполнить", :style => "float:right;",
+          :onclick =>"if($('date_begin').val() != '' && $('date_end').val() != ''); {$('mess_content').show();}"      
+      
+      
+

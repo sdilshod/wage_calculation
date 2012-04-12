@@ -1,0 +1,51 @@
+= content_for :message_window do 
+  = error_messages(@schedule_of_working)  
+%div{:class => "dialog_form", :style => "width:800px;"}
+  %div{:class => "dialog_forms_title"}= @title
+  %div{:id=>"dialog_form_content"}
+    = form_for @schedule_of_working do |f|
+      %p{:style=>"margin:0;width:100%"}
+        = label_tag "Код"
+        = f.text_field(:schedule_code, :size => 5, :style=>"margin-left:75px;")
+      %p{:style=>"margin:0;"}
+        = label_tag "Наименование"
+        = f.text_field(:name, :size => 40)
+      %div{:class => "horizontal_separator", :style=>"margin-top:10px;"}
+      %div{:class=>"content_for_nested_models"}
+        %div{:id => "cycleform", :class=>"nested_model_form"}
+          %p Цикл
+          = link_to(content_tag('span', "Добавить" , :class=>"add"),nil,:id=>"create_row_cycle",:onclick=>"$('div#cycleform .data_table div table').append('#{render_single_partial_field(f,Cycle.new,:cycles)}');return false;", :href=>"",:class=>"button")
+          %table{:border=>"1",:class => "data_table"}
+            %thead
+              %th{:width=>"17%"} День 
+              %th{:width=>"35%"} Часа 
+              %th{:width=>"35%",:class=>"transperent_right_border"} Ночные часы
+              %th{:width=>"7%",:class=>"transperent_right_border"}
+              %th{:width=>"5%"}
+              %tr
+                %td{:colspan=>"7"}
+                  %div{:style=>"overflow-y:scroll;height:200px;padding:0;"}
+                    %table{:border=>"1", :class=>"data_table_body"}
+                      = f.fields_for :cycles do |builder|
+                        = render("cycles", :f => builder)
+        %div{:class=>"separation"}
+        %div{:id => "date_counting_form",:class=>"nested_model_form"}
+          %p{:style=>"width:200px;"} Даты отсчета смен
+          = link_to(content_tag('span', "Добавить" , :class=>"add"),nil,:id=>"create_row_date_counting",:onclick=>"$('div#date_counting_form .data_table div table').append('#{render_single_partial_field(f,DateCounting.new,:date_of_countings)}');return false;", :href=>"" ,:class=>"button")
+          %table{:border=>"1",:class => "data_table"}
+            %thead
+              %th{:style=>"width:17%"} № смен
+              %th{:style=>"width:35%"} Началная дата
+              %th{:style=>"width:35%",:class=>"transperent_right_border"} Дата отчсета
+              %th{:style =>"width:7%;",:class=>"transperent_right_border"} 
+              %th{:style =>"width:5%;"} 
+              %tr
+                %td{:colspan=>"5"}
+                  %div{:style=>"overflow-y:scroll;height:200px;padding:0;"}
+                    %table{:border=>"1", :class=>"data_table_body"}
+                      = f.fields_for :date_of_countings do |builder|
+                        = render('date_of_countings', :f => builder) 
+      %div{:style=>"height:25px;border-top:1px solid #CCC;margin:5px 0;"}
+        = submit_tag "Сохранить", :style => "float:right;"
+  
+ 

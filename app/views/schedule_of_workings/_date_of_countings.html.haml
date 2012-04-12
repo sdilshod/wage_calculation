@@ -1,0 +1,10 @@
+%tr
+  %td{:style=>"width:16%"}
+    = f.text_field :session_number, :size => 6
+    = f.hidden_field :id
+  %td{:style=>"width:35%"}= f.text_field :initial_day, :size => 15
+  %td{:style=>"width:35%"}= f.text_field :counting_date, :size => 15
+  %td{:style=>"width:7%",:align=>"center"}
+    = f.hidden_field :_destroy
+    = link_to image_tag("panel_tools/delete.png",:size=>"15x15"), nil, :href =>"", :onclick => "check_nested_attr_destroy(this);return false;"
+

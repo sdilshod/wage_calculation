@@ -1,0 +1,7 @@
+1. Needed to be validate models Cycle and DateCounting for uniqeu of feilds
+  In Cycle this is --day-- and DateCounting is --session_number--
+  In ScheduleOfWorking feild schedule_code
+  Уникальность этих полей должно быть в пределах предка
+
+2. Correct models error messages in view.
+3. Начать реализацию формирование сведение о графиков

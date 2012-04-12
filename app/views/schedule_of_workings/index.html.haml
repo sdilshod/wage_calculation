@@ -1,0 +1,26 @@
+%div{:style=>"margin-top:10px;"}
+  = flash[:notice]
+  %div{:class => "dialog_form", :style => "width:800px;"}
+    %div{:class => "dialog_forms_title"} Список графиков работы
+    %div{:id=>"dialog_form_content"}
+      = link_to content_tag('span', "Создать" , :class=>"add"), new_schedule_of_working_path, {:class=>"button"}
+      %table{:border=>"1", :class=>"data_table"}
+        %thead
+          %th{:style=>"width:5%;"} №
+          %th{:style=>"width:10%;"} Код
+          %th{:style=>"width:75%;text-align:center;",:class=>"transperent_right_border"} Наименование
+          %th{:style=>"width:5%;",:class=>"transperent_right_border"} 
+          %th{:style=>"width:5%;"} 
+        %tbody
+          - i=1
+          - @schedules.each do |sch|
+            %tr
+              %th{:scope=>"row"}=i
+              %td=sch.schedule_code
+              %td=sch.name
+              %td{:style=>"text-align:center"}
+                =link_to image_tag("panel_tools/edit.png", :size=>"15x15"), edit_schedule_of_working_path(sch)
+              %td{:style=>"text-align:center"}
+                =link_to image_tag("panel_tools/delete.png", :size=>"15x15"), schedule_of_working_path(sch), :method => :delete, :confirm => "Удалить выбранный график ?"
+              - i += 1
+
