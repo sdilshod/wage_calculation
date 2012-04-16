@@ -49,6 +49,26 @@ def self.fill_information_for(date_begin, date_end)
   end
 end
 
+def self.classifiers_numbers(classifiers=true)
+  option_tag="<option value='' selected> --- </option>"
+
+  all.each do |e|
+    sch_c = e.schedule_code
+    if classifiers
+      option_tag += "<option value='#{sch_c}'> #{sch_c.to_s} #{e.name} </option>"
+    else
+      e.date_of_countings.each do |d_counting|
+        sch_number = sch_c.to_s+d_counting.session_number.to_s
+        option_tag += "<option value='#{sch_number}'> #{sch_number} </option>"
+      end
+    end
+  end
+
+  option_tag.html_safe
+end
+
+
+
 #---class methods  
 
 

@@ -118,7 +118,19 @@ describe ScheduleOfWorking do
       sch_info_row[0].hour.should == "0.0".to_d
     end
   end
-  
+
+  describe ".classifiers_numbers(classifiers)" do
+    it "should return option collections for select tag, contained <<schedule_code>>" do
+      option_tags = ScheduleOfWorking.classifiers_numbers
+      option_tags.should =~ /<option value='05'>/
+    end
+
+    it "should return option collections for select tag, contained <<schedule_code+date_of_counting.session_number>>" do
+      option_tags = ScheduleOfWorking.classifiers_numbers false
+      option_tags.should =~ /<option value='051'>/
+    end
+  end
+
 end
 
 

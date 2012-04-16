@@ -3,7 +3,7 @@
 %div{:class => "dialog_form", :style => "width:400px;"}
   %div{:class => "dialog_forms_title"} Заполнение графиков работы
   %div{:id=>"dialog_form_content"}
-    = form_tag filling_schedule_of_workings_path do
+    = form_tag filling_schedule_of_workings_path, :remote => true do
       %p{:style=>"margin:0;width:100%"}
         = label_tag 'C '
         = text_field_tag 'date_begin',nil,:size => 10
@@ -11,11 +11,14 @@
         = text_field_tag 'date_end',nil,:size => 10
       %br
       %p{:style=>"margin:0;width:100%"}
-        = label_tag 'График'
-        = select_tag 'schedule_list',nil,:style=>"width:200px;"
+        = label_tag 'Классификатор графика'
+        = select_tag 'classifier_schedule',@classifier_schedule,:style=>"width:200px;"
+      %p{:style=>"margin:0;width:100%"}
+        = label_tag 'Номер графика'
+        = select_tag 'schedule_number',@schedule_number,:style=>"width:200px;"
       %div{:style=>"height:25px;border-top:1px solid #CCC;margin:5px 0;"}
-        = submit_tag "Выполнить", :style => "float:right;",
-          :onclick =>"if($('date_begin').val() != '' && $('date_end').val() != ''); {$('mess_content').show();}"      
+        = submit_tag "Выполнить", :style => "float:right;"#,
+          #:onclick =>"if($('date_begin').val() != '' && $('date_end').val() != ''); {$('mess_content').show();}"      
       
       
 

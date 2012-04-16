@@ -50,16 +50,27 @@ class ScheduleOfWorkingsController < ApplicationController
   end
   
   def filling
-    unless request.post?
-        
-    else
-      if params[:date_begin].blank? || params[:date_end].blank?
-        flash[:errors]="Не выбраны начальный и/или концывые даты заполнение графика"
-        return
+    if request.xhr?
+      respond_to do |repond|
+        respond.js {render :text => "djd"}
       end
-      ScheduleOfWorking.fill_information_for(params[:date_begin].to_date,params[:date_end].to_date)
-      redirect_to_index
     end
+    
+#    unless request.xhr?
+#      @classifier_schedule = ScheduleOfWorking.classifiers_numbers
+#      @schedule_number = ScheduleOfWorking.classifiers_numbers false
+#    else
+#      render :update do |page| 
+#        page.alert("sssssss")     
+##        if params[:date_begin].blank? || params[:date_end].blank?
+##          #flash[:errors]="Не выбраны начальный и/или концывые даты заполнение графика"
+##          page.alert("Не выбраны начальный и/или концывые даты заполнение графика")
+###          return
+##        end
+##        ScheduleOfWorking.fill_information_for(params[:date_begin].to_date,params[:date_end].to_date)
+##        #redirect_to_index
+#      end
+#    end
   end
   
   private
