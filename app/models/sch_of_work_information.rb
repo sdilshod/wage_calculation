@@ -27,8 +27,8 @@ class SchOfWorkInformation < ActiveRecord::Base
     end
     
     sch_number = schedule_code[0..1].blank? ? "0" : schedule_code[0..1]
-    session_number = schedule_code[2].blank? ? "0" :schedule_code[2]
-    s = ScheduleOfWorking.where("schedule_code=#{sch_number}").
+    session_number = schedule_code[2].blank? ? "0" : schedule_code[2]
+    s = ScheduleOfWorking.where("schedule_code='#{sch_number}'").
                           joins(:date_of_countings).
                           where("date_countings.session_number=#{session_number}")
     if s.blank?

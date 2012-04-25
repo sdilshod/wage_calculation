@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 6) do
 
   create_table "cycles", :force => true do |t|
-    t.integer "schedule_of_working_id",                                :null => false
+    t.integer "schedule_of_working_id",                                                 :null => false
     t.integer "day"
-    t.decimal "hour",                   :precision => 10, :scale => 2
-    t.decimal "night_time",             :precision => 10, :scale => 2
+    t.decimal "hour",                   :precision => 10, :scale => 2, :default => 0.0
+    t.decimal "night_time",             :precision => 10, :scale => 2, :default => 0.0
   end
 
   create_table "date_countings", :force => true do |t|
@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(:version => 5) do
   end
 
   create_table "sch_of_work_informations", :force => true do |t|
-    t.date    "date",                                         :null => false
-    t.string  "schedule_code",                                :null => false
-    t.decimal "hour",          :precision => 10, :scale => 2
-    t.decimal "night_time",    :precision => 10, :scale => 2
+    t.date    "date",                                                          :null => false
+    t.string  "schedule_code",                                                 :null => false
+    t.decimal "hour",          :precision => 10, :scale => 2, :default => 0.0
+    t.decimal "night_time",    :precision => 10, :scale => 2, :default => 0.0
   end
 
   create_table "schedule_of_workings", :force => true do |t|

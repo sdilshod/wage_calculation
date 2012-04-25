@@ -10,7 +10,7 @@ class DateCounting < ActiveRecord::Base
   belongs_to :schedule_of_working
 
 ##----validations----
-  validates :session_number, :uniqueness => {:message => "в приделах этого графика не уникально"}, :if=>:around_schedule
+#  validates :session_number, :uniqueness => {:message => "в приделах этого графика не уникально"}, :if=>:around_schedule
   validates :initial_day, :counting_date, :presence => true
   validates :initial_day, :format => {:with => /[1-9]+/}
 
@@ -62,7 +62,7 @@ class DateCounting < ActiveRecord::Base
   end
 
   def sch_code
-    schedule_of_working.schedule_code.to_s+session_number.to_s if schedule_of_working
+    schedule_of_working.schedule_code + session_number.to_s if schedule_of_working
   end
 
 #---instance methods
@@ -71,12 +71,12 @@ class DateCounting < ActiveRecord::Base
   private
 
 #----validation methods----------
-  def around_schedule
-    schedule_of_working.date_of_countings.each do |e|
-      return true if e.session_number == self.session_number
-    end if schedule_of_working
-    false
-  end
+#  def around_schedule
+#    schedule_of_working.date_of_countings.each do |e|
+#      return true if e.session_number == self.session_number
+#    end if schedule_of_working
+#    false
+#  end
 
 
 end

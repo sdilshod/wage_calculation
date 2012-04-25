@@ -26,8 +26,14 @@
                 %td{:colspan=>"7"}
                   %div{:style=>"overflow-y:scroll;height:200px;padding:0;"}
                     %table{:border=>"1", :class=>"data_table_body"}
-                      = f.fields_for :cycles do |builder|
-                        = render("cycles", :f => builder)
+                      - if @schedule_of_working.new_record?
+                        - 10.times do
+                          = f.fields_for :cycles do |builder| 
+                            = render("cycles", :f => builder)
+                      - else
+                        = f.fields_for :cycles do |builder| 
+                          = render("cycles", :f => builder)
+                         
         %div{:class=>"separation"}
         %div{:id => "date_counting_form",:class=>"nested_model_form"}
           %p{:style=>"width:200px;"} Даты отсчета смен
@@ -43,8 +49,13 @@
                 %td{:colspan=>"5"}
                   %div{:style=>"overflow-y:scroll;height:200px;padding:0;"}
                     %table{:border=>"1", :class=>"data_table_body"}
-                      = f.fields_for :date_of_countings do |builder|
-                        = render('date_of_countings', :f => builder) 
+                      - if @schedule_of_working.new_record?
+                        - 10.times do
+                          = f.fields_for :date_of_countings do |builder|
+                            = render('date_of_countings', :f => builder) 
+                      - else
+                        = f.fields_for :date_of_countings do |builder|
+                          = render('date_of_countings', :f => builder) 
       %div{:style=>"height:25px;border-top:1px solid #CCC;margin:5px 0;"}
         = submit_tag "Сохранить", :style => "float:right;"
   

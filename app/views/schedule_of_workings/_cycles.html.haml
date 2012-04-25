@@ -2,7 +2,7 @@
 %tr{:style=>"border-right:none;"}
   %td{:width=>"16%"}
     = f.text_field :day, :size=>6
-    = f.hidden_field :id
+    = f.hidden_field :id unless f.object.new_record?
   %td{:width=>"35%"}= f.text_field :hour, :size=>15
   %td{:width=>"35%"}= f.text_field :night_time, :size=>15
   %td{:style => "width:7%;padding:0;border-right:none",:align=>"center"}

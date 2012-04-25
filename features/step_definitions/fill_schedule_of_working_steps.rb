@@ -151,7 +151,7 @@ Given /^я нахожусь на страницы "([^"]*)" и в справоч
   h = table.hashes[0].symbolize_keys
   h.delete(:edit_button)
   @schedule_051 = new_05_schedule h
-  puts @schedule_051.cycles.size
+
   @schedule_051.save
   visit schedule_of_workings_path
   page.should have_content(title)
@@ -213,9 +213,12 @@ end
 #-----------------------------------------------
 
 Given /^в базе графиков работы есть следующий записи$/ do |table|
-  h = table.hashes[0].symbolize_keys
-  @schedule_051 = new_05_schedule h
-  @schedule_051.save
+#  h = table.hashes[0].symbolize_keys
+#  @schedule_051 = new_05_schedule h
+#  @schedule_051.save
+  @schedule_05 = Factory.build :schedule_05
+  @schedule_05.save
+  puts "count of rows "+@schedule_05.cycles.count.to_s
 end
 
 When /^я перешел по ссылки "([^"]*)"$/ do |link|
@@ -231,8 +234,9 @@ end
 	  page.should have_selector("input##{field_date_end}")
   end
 
-  Then /^должен увидeть поля списка "([^"]*)"$/ do |field_list|
+  Then /^должен увидeть поля списка "([^"]*)" и "([^"]*)"$/ do |field_list, field_list2|
 	  page.should have_selector("select##{field_list}")
+	  page.should have_selector("select##{field_list2}")
   end
 
   Then /^должен увидeть кнопку "([^"]*)" в форме заполнение$/ do |runs|
@@ -244,7 +248,7 @@ end
   end
 
   Then /^должен увидeть надпись "([^"]*)" в форме заполнение$/ do |message|
-    page.should have_content(message)
+    page.driver.browser.switch_to.alert.accept
   end
 
   When /^я заполню поля ввода "([^"]*)" с значением "([^"]*)" и "([^"]*)" с значением "([^"]*)"$/ do |field_date_begin, val1,field_date_end, val2|
@@ -254,26 +258,24 @@ end
 
   When /^нажму кнопку "([^"]*)" в форме заполнение$/ do |runs|
     click_button(runs)
+    sleep 15
   end
+
+#  When /^я буду ждать пока ajax запрос закончиться$/ do
+#    wait_until do
+#      page.evaluate_script('$.active') == 0
+#    end
+#  end  
   
-  Then /^количество записи в сведение графиков будить 365$/ do
+  Then /^количество записи в сведение графиков для классификатора "([^"]*)" будить 365$/ do |schedule_class|
+    puts "count of rows #{ScheduleOfWorking.count}"
+    s_c = ScheduleOfWorking.find_by_schedule_code("05")
+    puts "05 schedule is presents #{s_c.blank?}"
+    unless s_c.blank?
+      puts "05 schedule is presents #{s_c.date_of_countings.blank?}"
+    end
     SchOfWorkInformation.count.should == 365
   end
-
-#  Then /^увижу текст "([^"]*)"  в форме заполнение$/ do |mess|
-#    pending # express the regexp above with the code you wish you had
-#  end
-
-#  Then /^заполнение графика производиться по всем графикам и я должен попасть в страницу "([^"]*)"$/ do |root_page|
-#    pending # express the regexp above with the code you wish you had
-#  end
-
-#  Then /^должен увидеть сообщение "([^"]*)"$/ do |mess|
-#    pending # express the regexp above with the code you wish you had
-#  end
-
-
-
 
 
 

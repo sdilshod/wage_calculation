@@ -5,11 +5,12 @@ module ScheduleSupportHelper
   # helper methods fo schedule model
   #---------------------------------------
 
-  def collection_of_cycles
+  def collection_of_cycles(another_h=false)
     collection=[]
     4.times { |t| collection << {:day=>t+1, :hour=>8.25, :night_time=>0.00} }
     collection <<{:day=>5, :hour=>7.00, :night_time=>0.00}
     2.times {|t| collection << {:day=>t+6, :hour=>0.00, :night_time=>0.00}}
+    collection << {:day=>1, :hour=>0.00, :night_time=>0.00} if another_h
     collection
   end
 
@@ -37,8 +38,10 @@ module ScheduleSupportHelper
   end
 
 
-  def collection_date_of_countings
+  def collection_date_of_countings(another_h=false)
     collection = [{:session_number => 1, :initial_day => 2, :counting_date => Date.parse("01.04.1997")}]
+    collection << {:session_number => 1, :initial_day => 3, :counting_date => Date.parse("01.04.1997")} if another_h
+    collection
   end
 
   def new_schedule_obj

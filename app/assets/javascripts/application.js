@@ -7,6 +7,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+ var btn_submit_value="";
 
 function check_nested_attr_destroy(obj) {
      
@@ -24,3 +25,27 @@ function check_nested_attr_destroy(obj) {
     }
     
 }
+
+/* Setting event listener for ajax callbacks */
+$.ajaxPrefilter(function(options,originalOptions,jqXHR){
+    
+    if (!$('#ajax_loader').is(":visible"))
+    {
+        $('#ajax_loader').show();
+        var bt_obj = $('form[data-remote] input[type=submit]');
+        btn_submit_value = bt_obj.val();
+        bt_obj.val("Ждите..");
+        bt_obj.attr("disabled", "disabled");
+    }
+    
+})
+
+$('head').ajaxComplete(function(event, request,setting) {
+    $('#ajax_loader').hide();
+    var bt_obj = $('form[data-remote] input[type=submit]');
+    bt_obj.val(btn_submit_value);
+    btn_submit_value="";
+    bt_obj.removeAttr("disabled");
+})
+
+/*---*/

@@ -36,7 +36,6 @@ class ScheduleOfWorkingsController < ApplicationController
       flash[:notice] = "Обновление графика произведено успешно"
       redirect_to_index
     else
-      #flash[:error]="ошибка в редактирование"
       form_title "edit"
       render :action => :edit
     end
@@ -50,27 +49,17 @@ class ScheduleOfWorkingsController < ApplicationController
   end
   
   def filling
-    if request.xhr?
-      respond_to do |repond|
-        respond.js {render :text => "djd"}
+    unless request.xhr?
+      @classifier_schedule = ScheduleOfWorking.classifiers_numbers
+      @schedule_number = ScheduleOfWorking.classifiers_numbers false
+    else
+      fill_h = params[:fill_information]
+      if fill_h[:date_begin].blank? || fill_h[:date_end].blank?
+        render :js => "alert('Не выбраны начальный и/или концывые даты заполнение графика !')"
+        return
       end
+      ScheduleOfWorking.fill_information_for(fill_h)
     end
-    
-#    unless request.xhr?
-#      @classifier_schedule = ScheduleOfWorking.classifiers_numbers
-#      @schedule_number = ScheduleOfWorking.classifiers_numbers false
-#    else
-#      render :update do |page| 
-#        page.alert("sssssss")     
-##        if params[:date_begin].blank? || params[:date_end].blank?
-##          #flash[:errors]="Не выбраны начальный и/или концывые даты заполнение графика"
-##          page.alert("Не выбраны начальный и/или концывые даты заполнение графика")
-###          return
-##        end
-##        ScheduleOfWorking.fill_information_for(params[:date_begin].to_date,params[:date_end].to_date)
-##        #redirect_to_index
-#      end
-#    end
   end
   
   private

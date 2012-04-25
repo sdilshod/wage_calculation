@@ -1,24 +1,21 @@
-=flash[:errors]
-%div{:style=>"display:none;", :id => "mess_content"} Идет формирование графика
 %div{:class => "dialog_form", :style => "width:400px;"}
   %div{:class => "dialog_forms_title"} Заполнение графиков работы
   %div{:id=>"dialog_form_content"}
-    = form_tag filling_schedule_of_workings_path, :remote => true do
+    = form_for "fill_information", :url => filling_schedule_of_workings_path, :remote => true, :html => {:id => 'remote_form'} do |f|
       %p{:style=>"margin:0;width:100%"}
-        = label_tag 'C '
-        = text_field_tag 'date_begin',nil,:size => 10
-        = label_tag 'по'
-        = text_field_tag 'date_end',nil,:size => 10
+        = f.label :date_begin, 'C '
+        = f.text_field 'date_begin',:size => 10
+        = f.label :date_end, 'по'
+        = f.text_field 'date_end',:size => 10
       %br
       %p{:style=>"margin:0;width:100%"}
-        = label_tag 'Классификатор графика'
-        = select_tag 'classifier_schedule',@classifier_schedule,:style=>"width:200px;"
+        = f.label :classifier_schedule, 'Классификатор графика'
+        = f.select 'classifier_schedule', @classifier_schedule, {}, :style=>"width:200px;"
       %p{:style=>"margin:0;width:100%"}
-        = label_tag 'Номер графика'
-        = select_tag 'schedule_number',@schedule_number,:style=>"width:200px;"
+        = f.label :schedule_number, 'Номер графика'
+        = f.select 'schedule_number', @schedule_number, {}, :style=>"width:200px;"
       %div{:style=>"height:25px;border-top:1px solid #CCC;margin:5px 0;"}
-        = submit_tag "Выполнить", :style => "float:right;"#,
-          #:onclick =>"if($('date_begin').val() != '' && $('date_end').val() != ''); {$('mess_content').show();}"      
-      
-      
+        = submit_tag "Выполнить", :style => "float:right;"
+        = image_tag "ajax-loader.gif", :style => "display:none;float:right;", :id => "ajax_loader", :size => "20x20"
+
 

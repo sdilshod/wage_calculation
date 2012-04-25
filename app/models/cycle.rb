@@ -13,19 +13,19 @@ class Cycle < ActiveRecord::Base
   #Validations
   #-------------------
   validates :day, :hour, :presence => true
-  validates :day, :uniqueness => {:message => "в приделах этого графика не уникально"}, :if=>:around_schedule
+#  validates :day, :uniqueness => {:message => "в приделах этого графика не уникально"}, :if=>:around_schedule
   
 
 #privats  
   private
 
 #----validation methods----
-  def around_schedule
-    schedule_of_working.cycles.each do |e|
-      return true if e.day == self.day
-    end if schedule_of_working
-    false
-  end
+#  def around_schedule
+#    schedule_of_working.cycles.each do |e|
+#      return true if e.day == self.day
+#    end if schedule_of_working
+#    false
+#  end
 
 
 

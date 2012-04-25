@@ -26,7 +26,7 @@ test: &test
   encoding: utf8
   reconnect: false
   database: wage_calculation_test
-  pool: 5
+  pool: 20
   username: root
   password:
   socket: /var/run/mysqld/mysqld.sock

@@ -13,6 +13,8 @@ class ScheduleOfWorking < ActiveRecord::Base
   
   accepts_nested_attributes_for :date_of_countings, :allow_destroy => true, :reject_if => :reject_date_counting
   
+  #attr_accessible :cycles_attributes, :date_of_countings_attributes
+  
 #---------------
 #validations
 #---------------
@@ -33,16 +35,28 @@ class ScheduleOfWorking < ActiveRecord::Base
 #---collbacks
 
 #class methods
-def self.fill_information_for(date_begin, date_end)
-  sch = all
+def self.fill_information_for(fill_information)
+  
+  date_begin          = fill_information[:date_begin].to_date
+  date_end            = fill_information[:date_end].to_date
+  classifier_schedule = fill_information[:classifier_schedule]
+  schedule_number     = fill_information[:schedule_number]
+
+  sch = all if classifier_schedule.blank? && schedule_number.blank?
+
+  sch = [find_by_schedule_code(classifier_schedule)] if !classifier_schedule.blank?
+
   sch.each do |e_sch|
     
     e_sch.date_of_countings.each do |d_counting|
+      
+      next if !schedule_number.blank? && d_counting.sch_code != schedule_number
       
       h_calculate = d_counting.roll_cycle(date_begin, date_end)
 
       transaction do
         SchOfWorkInformation.delete_all("(date >= '#{date_begin}' and date <= '#{date_end}') and schedule_code = #{d_counting.sch_code}")
+        
         SchOfWorkInformation.create! h_calculate 
       end
     end
@@ -89,6 +103,21 @@ end
       str_message = "Не заполнен цикл или дата отсчета графика" 
       errors[:base] << str_message unless errors[:base].include?(str_message)
     end
+
+    cycles.each do |e|
+      if cycles.select{|x| x.day == e.day}.length > 1
+        errors[:base] << "День цикла в приделах этого графика не уникально"
+        break
+      end
+    end
+
+    date_of_countings.each do |e|
+      if date_of_countings.select{|x| x.session_number == e.session_number}.length > 1
+        errors[:base] << "Номер смены в приделах этого графика не уникально"
+        break
+      end
+    end
+
   end
 
 #---end of custome validation methods
