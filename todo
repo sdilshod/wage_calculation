@@ -7,3 +7,20 @@
 3. Начать реализацию формирование сведение о графиков  *******- реализовано
 4. Нарисовать внешный вид для сведение графиков и сделать возможность редактировать в ручную
 5, 
+
+
+
+    var t_rows = $("table tbody tr");
+    t_rows.each(function(index){
+            el = $(t_rows[index]).find('th'); 
+            alert(el.html());
+            if (el.html() == <%=params[:row_number]%>)
+            {
+                el_whose_is_del = el.parent().find("td a[href='#']");
+                alert(el_whose_is_del.html());
+                td = el_whose_is_del.parent(); el_whose_is_del.remove();
+                /*td.append(<%=link_to "Удалить запись", sch_of_work_information_path(@sch_of_work_info), :method => :delete, :remote => true%>);*/
+            }
+        }
+    )   
+

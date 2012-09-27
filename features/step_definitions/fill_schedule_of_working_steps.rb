@@ -218,7 +218,6 @@ Given /^в базе графиков работы есть следующий з
 #  @schedule_051.save
   @schedule_05 = Factory.build :schedule_05
   @schedule_05.save
-  puts "count of rows "+@schedule_05.cycles.count.to_s
 end
 
 When /^я перешел по ссылки "([^"]*)"$/ do |link|
@@ -278,6 +277,106 @@ end
   end
 
 
+#-----------------------------------------------
+# Прямая коррекция сведение графиков работы
+#-----------------------------------------------
+
+
+Given /^в базе сведение графиков работы есть следующий записи$/ do |table|
+  # table is a Cucumber::Ast::Table
+  @schedule_05 = Factory.build :schedule_05
+  @schedule_05.save
+  h = table.hashes
+  h.each do |e|
+    SchOfWorkInformation.create e.symbolize_keys
+  end
+end
+
+When /^я перешел по ссылки для корректировки сведение графиков работы "([^"]*)"$/ do |link|
+  visit sch_of_work_informations_path
+end
+
+  Then /^я должен увидить список сведение графиков работы с пагинации (\d+) строк в страницы$/ do |arg1|
+    page.should have_selector("table.data_table")
+  end
+
+  And /^должен уведить кнопку "([^"]*)"$/ do |btn_add|
+    page.should have_selector("a span.add")
+  end
+
+#добавление
+When /Если я нажму кнопку "([^"]*)"$/ do |btn_add|
+  click_button btn_add
+end
+
+  Then /^в таблице появиться новая строка$/ do
+    find(:xpath, "//table[@class='data_table']").should have_css("tr td input[@type='text']")
+  end
+
+  And /^я заполню поля "([^"]*)" с значением "([^"]*)", поля "([^"]*)" с значением "([^"]*)"$/ do |date, value1, schedule_code, value2|
+    fill_in(date, :with => value1)
+    fill_in(schedule_code, :with => value2)
+    @t_row = find("##{date}").parent
+  end
+
+When /^я нажму кнопку "([^"]*)" в строки$/ do |btn_save|
+  @t_row.find("td a#save_row").click()
+end
+
+  Then /^увижу сообщение об ошибки в добавление "([^"]*)"$/ do |str_message|
+    @error_el = find("#message_window")
+    @error_el.text.should =~ /#{str_message}/
+    @error_el.find("a").click()
+  end
+
+When /^я заполню поля "([^"]*)" с значением "([^"]*)", поля "([^"]*)" с значением "([^"]*)", поля "([^"]*)" с значением "([^"]*)"$/ do |txt_date, value1, txt_schedule_code, value2, txt_hour, value3|
+    fill_in(txt_date, :with => value1)
+    fill_in(txt_schedule_code, :with => value2)
+    fill_in(txt_hour, :with => value3)
+end
+
+  And /^нажму на "([^"]*)" \(добавление\)$/ do |arg1|
+      @t_row.find("td a#save_row").click()
+  end
+
+  Then /^таблица сведение графиков работы увеличиться на одну запись$/ do 
+    SchOfWorkInformation.count.should == 8
+  end
+
+#correction
+When /^на первом строки кликаю мышью$/ do
+  t_rows = find("table.data_table tbody tr td",:text => "1")
+  puts t_rows
+  puts t_rows.text
+end
+
+  Then /^поля становиться read\-only=false$/ do
+    pending # express the regexp above with the code you wish you had
+  end
+
+  And /^я заполню поля "([^"]*)" с значением "([^"]*)", поля "([^"]*)" с значением "([^"]*)" \(correction\)$/ do |date, hour|
+    pending # express the regexp above with the code you wish you had
+  end
+
+When /^я нажму кнопку "([^"]*)" в строки редактирование$/ do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
+  Then /^увижу сообщение об ошибки в корректировки "([^"]*)"$/ do |arg1|
+    pending # express the regexp above with the code you wish you had
+  end
+
+When /^я заполню поля "([^"]*)" с значением "([^"]*)", поля "([^"]*)" с значением "([^"]*)", поля "([^"]*)" с значением "([^"]*)" \(correction\)$/ do |txt_date, value1, txt_schedule_code, value2, txt_hour, value3|
+  pending # express the regexp above with the code you wish you had
+end
+
+  And /^нажму на "([^"]*)" \(корректировка\)$/ do |arg1|
+    pending # express the regexp above with the code you wish you had
+  end
+
+  Then /^увижу сообщение в корректировки "([^"]*)"$/ do |arg1|
+    pending # express the regexp above with the code you wish you had
+  end
 
 
 

@@ -15,6 +15,16 @@ class SchOfWorkInformation < ActiveRecord::Base
   
   validate :customer_validate
 
+  def to_hash
+    h = {
+      :sch_of_work_information => {
+        :date => date, :schedule_code => schedule_code, :hour => hour, :night_time => night_time
+      }
+    }
+    return h
+  end
+
+
   private
 
 #- custome validation methods

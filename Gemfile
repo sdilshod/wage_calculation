@@ -19,7 +19,7 @@ end
 
 gem 'jquery-rails'
 gem 'haml-rails'
-
+#gem 'best_in_place'
 # Use unicorn as the web server
 # gem 'unicorn'
 
