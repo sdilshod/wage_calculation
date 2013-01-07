@@ -33,7 +33,7 @@ describe ScheduleOfWorking do
     
     @new_schedule_object = new_schedule_obj
     
-    @schedule_06 = Factory.create(:schedule_06)
+    @schedule_06 = FactoryGirl.create(:schedule_06)
   end
   
   describe "#valid?" do

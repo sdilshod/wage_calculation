@@ -1,0 +1,113 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ */
+ //= require_self
+ //= require foundation_and_overrides
+ //= require_tree . 
+@import "foundation_and_overrides.scss";
+
+
+.fieldset_border_color fieldset{border-color:#969592}
+.custom_text_field input[type="text"] {height:25px;font-size:14px;padding:0 2px;}
+
+div.form_1c{
+ border: 3px solid #597DAD;
+ width:700px;
+ margin-left:10px;
+}
+
+div.form_1c div.form_1c_title{
+  background-color: #597DAD;
+  color:white;
+  padding:3px;
+  font-weight: bold;
+}
+
+div .form_content{
+  background-color: #F4EFE1;
+}
+  div.form_content .top_tool_box {
+    padding:8px 5px;
+    border-bottom:1px solid #CCC;
+    margin-bottom:10px;
+    background-color: #F4EFE1;
+  }
+  div.form_content .elements{ 
+    margin-left:10px; 
+  }
+
+  div.form_content .bottom_tool_box {
+    padding:5px;
+    border-top:1px solid #CCC;
+    /*background-color: #F4EFE1;*/
+    background-color:#E0DBCE;
+    margin-bottom:0;
+  }
+  div.form_content form {
+    padding:0px;
+    margin:0;
+  }
+
+
+/*Data table css*/
+.data_table{
+  border-collapse: collapse;
+  border: 2px solid #CCC;
+  width: 95%;
+}
+  .data_table thead, .data_table thead th{
+    border: 1px solid #CCC;
+    font: normal 14px verdana, arial, helvetica, sans-serif;
+    font-width:bold;
+    background-color: #CDDEF6;
+    color:black;
+
+  }
+  .data_table tbody tr:hover {background-color: #C5F0C8;}
+  .data_table tbody td{
+    border: 1px solid #CCC;
+    padding:5px;
+    color:blue;
+  }
+.row_data_table { padding:0;margin:0; }
+  .row_data_table td{
+    border-color:#CCC;
+    padding:5px;
+  } .row_data_table td input[type="text"]{
+        height:20px;
+        margin:0;
+        padding:0;
+        border:none;
+    }
+    .row_data_table td a{
+        padding-top:9px;
+    }
+
+
+/*Link button styles*/
+a.link_button{
+  /*background:url('panel_tools/add.png') no-repeat;*/
+  background-color:#FAF0E6;
+  display:block;
+	color:black;
+	font-weight:bold;
+  font-size:12px;
+	height:20px;
+	line-height:20px;
+	margin-bottom:9px;
+	margin-left:10px;
+  margin-top:5px;
+	text-decoration:none;
+	width:100px;
+	border: 1px solid #FFDEAD;
+}
+	a:hover.button{
+	color:#0066CC;
+	border: 1px solid #CD853F;
+	}
+
+
+
+

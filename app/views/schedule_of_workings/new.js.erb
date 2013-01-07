@@ -1,0 +1,8 @@
+<%partial_name = params[:partial]%>
+<% var=fields_for "schedule_of_working[#{partial_name}_attributes][#{@obj_fields_for.object_id}]", @obj_fields_for[partial_name.to_sym] do |f| %>
+  <%= render partial_name, f: f%>
+<%end%>
+
+$('#<%=partial_name%>_table').append('<%=escape_javascript(var)%>')
+
+

@@ -4,11 +4,11 @@ require 'spec_helper'
 
 describe SchOfWorkInformation do
   before(:each) do
-    @schedule_05 = Factory.build :schedule_05
-    @schedule_06 = Factory.build :schedule_06
+    @schedule_05 = FactoryGirl.build :schedule_05
+    @schedule_06 = FactoryGirl.build :schedule_06
     @schedule_05.save; @schedule_06.save
     
-    @sch_information = Factory.create(:sch_info)
+    @sch_information = FactoryGirl.create(:sch_info)
   end
   
   

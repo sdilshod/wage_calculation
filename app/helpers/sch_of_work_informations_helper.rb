@@ -1,0 +1,2 @@
+module SchOfWorkInformationsHelper
+end

@@ -7,10 +7,18 @@ class ScheduleOfWorkingsController < ApplicationController
   end
 
 	def new
-	  @schedule_of_working = ScheduleOfWorking.new
-	  @schedule_of_working.cycles.build
-	  @schedule_of_working.date_of_countings.build
-	  form_title "new"
+	  respond_to do |format|
+	    format.js do
+	      @obj_fields_for = {:cycles => Cycle.new, :date_of_countings => DateCounting.new}
+      end
+
+      format.html do 
+        @schedule_of_working = ScheduleOfWorking.new
+        @schedule_of_working.cycles.build
+        @schedule_of_working.date_of_countings.build
+	      form_title "new"
+      end
+    end
 	end
 	
 	def edit

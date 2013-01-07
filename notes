@@ -1,5 +1,5 @@
 При следующим релизе cucumber-а надо обновиться
-04,02,2012
+
 После исправление cucumbera возник проблема проверки inner_html элемента с capybara.
 Класс Capybara::Note::Element имеет свойства text позволяющий опредилить inner_html элемента
  Пример: find(:xpath, "//div[@id='cyrcle_form']/table").text

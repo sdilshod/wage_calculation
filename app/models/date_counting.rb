@@ -30,10 +30,23 @@ class DateCounting < ActiveRecord::Base
         next
       end
       cycle_row = cycle.find_by_day self.initial_day
+
+      hour = cycle_row.hour
+      night_time = cycle_row.night_time
+  
+      #cheking initial date for holiday
+      if holiday_value(initial_date) == initial_date
+        hour = schedule_of_working.correct_holiday unless cycle_row.hour.blank?
+        night_time = schedule_of_working.correct_holiday unless cycle_row.night_time.blank?
+      elsif holiday_value(initial_date).class == Array
+        hour = cycle_row.hour + schedule_of_working.precorrect_holiday
+        night_time = cycle_row.night_time + schedule_of_working.precorrect_holiday
+      end
+
       arr_schedule_info << {:date => initial_date, 
                             :schedule_code => schedule_of_working.schedule_code.to_s+self.session_number.to_s,
-                            :hour => cycle_row.hour,
-                            :night_time => cycle_row.night_time}
+                            :hour => hour,
+                            :night_time => night_time}
       initial_date += 1.day
       change_initial_day_of_cycle
     end
@@ -63,6 +76,25 @@ class DateCounting < ActiveRecord::Base
 
   def sch_code
     schedule_of_working.schedule_code + session_number.to_s if schedule_of_working
+  end
+
+  def holiday_value date
+    #return date - holiday
+    #return date, 1 - preholiday
+    a = ScheduleOfWorking::HOLIDAYS
+    return nil if a.blank?
+    
+    a.each do |e|
+      if e[1] == date
+        return date
+        break
+      elsif e[1] == date+1.day
+        return date, 1
+        break      
+      end
+    end
+
+    return nil
   end
 
 #---instance methods

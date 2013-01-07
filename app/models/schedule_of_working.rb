@@ -2,6 +2,8 @@
 
 #t.string :schedule_code
 #t.string :name
+#t.decimal :precorrect_holiday, :precision => 10, :scale => 2
+#t.decimal :correct_holiday, :precision => 10, :scale => 2
 
 
 class ScheduleOfWorking < ActiveRecord::Base
@@ -34,6 +36,13 @@ class ScheduleOfWorking < ActiveRecord::Base
 
 #---collbacks
 
+#Constants
+HOLIDAYS=[
+  ["Новый год", "01.01.2013".to_date],
+  ["День женшинь", "08.03.2013".to_date]
+ ]
+#--------Constants
+
 #class methods
 def self.fill_information_for(fill_information)
   
@@ -63,8 +72,18 @@ def self.fill_information_for(fill_information)
   end
 end
 
-def self.classifiers_numbers(classifiers=true)
+def self.classifiers_numbers(classifiers=true, classifier_number=nil)
   option_tag="<option value='' selected> --- </option>"
+#  sch_of_works = classifier_number.blank? ? all : find_by_schedule_code(classifier_number)
+#  unless classifier_number.blank?
+#    e = find_by_schedule_code(classifier_number)
+#      sch_c = e.schedule_code
+#      e.date_of_countings.each do |d_counting|
+#        sch_number = sch_c.to_s+d_counting.session_number.to_s
+#        option_tag += "<option value='#{sch_number}'> #{sch_number} </option>"
+#      end
+#    return option_tag.html_safe
+#  end
 
   all.each do |e|
     sch_c = e.schedule_code

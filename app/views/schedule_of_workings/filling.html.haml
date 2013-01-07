@@ -1,21 +1,38 @@
-%div{:class => "dialog_form", :style => "width:400px;"}
-  %div{:class => "dialog_forms_title"} Заполнение графиков работы
-  %div{:id=>"dialog_form_content"}
-    = form_for "fill_information", :url => filling_schedule_of_workings_path, :remote => true, :html => {:id => 'remote_form'} do |f|
-      %p{:style=>"margin:0;width:100%"}
-        = f.label :date_begin, 'C '
-        = f.text_field 'date_begin',:size => 10
-        = f.label :date_end, 'по'
-        = f.text_field 'date_end',:size => 10
-      %br
-      %p{:style=>"margin:0;width:100%"}
-        = f.label :classifier_schedule, 'Классификатор графика'
-        = f.select 'classifier_schedule', @classifier_schedule, {}, :style=>"width:200px;"
-      %p{:style=>"margin:0;width:100%"}
-        = f.label :schedule_number, 'Номер графика'
-        = f.select 'schedule_number', @schedule_number, {}, :style=>"width:200px;"
-      %div{:style=>"height:25px;border-top:1px solid #CCC;margin:5px 0;"}
-        = submit_tag "Выполнить", :style => "float:right;"
-        = image_tag "ajax-loader.gif", :style => "display:none;float:right;", :id => "ajax_loader", :size => "20x20"
+%div{:style=>"margin-top:10px;"}
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:450px;"}
+    %div{:class => "form_1c_title"} 
+      %span Заполнить сведение о графиков работы
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      = form_for "fill_information", :url => filling_schedule_of_workings_path, :remote => true, :html => {:id => 'remote_form'} do |f|
+        %div{:class => "elements"} 
+          %div{:style=>"padding-top:10px;"}
+            .row.collapse
+              .one.column
+                =f.label :date_end, "С", :class => "prefix"
+              .two.columns.custom_text_field
+                = f.text_field 'date_begin'
+              .one.column
+                =f.label :date_end, "по", :class => "prefix"
+              .two.columns.end.custom_text_field
+                = f.text_field 'date_end'
+            .row
+              .three.columns.right
+                = f.label :classifier_schedule, 'Классификатор графика'
+              .three.columns.end
+                = f.select 'classifier_schedule', @classifier_schedule, {}, :style=>"width:200px;"
+            .row
+              .three.columns
+                = f.label :schedule_number, 'Номер графика'
+              .three.columns.end
+                = f.select 'schedule_number', @schedule_number, {}, :style=>"width:200px;"
+        %div{:class => "bottom_tool_box", :style=> "margin-top:10px;"}
+          .row
+            .seven.columns
+              = submit_tag "Выполнить", :class => "small button right"
+              = image_tag "ajax-loader.gif", :style => "display:none;", :id => "ajax_loader", :size => "20x20", :class=>"right inline"
+
+
 
 

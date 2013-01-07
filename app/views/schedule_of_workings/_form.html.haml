@@ -1,62 +1,61 @@
-= content_for :message_window do 
-  = error_messages(@schedule_of_working)  
-%div{:class => "dialog_form", :style => "width:800px;"}
-  %div{:class => "dialog_forms_title"}= @title
-  %div{:id=>"dialog_form_content"}
-    = form_for @schedule_of_working do |f|
-      %p{:style=>"margin:0;width:100%"}
-        = label_tag "Код"
-        = f.text_field(:schedule_code, :size => 5, :style=>"margin-left:75px;")
-      %p{:style=>"margin:0;"}
-        = label_tag "Наименование"
-        = f.text_field(:name, :size => 40)
-      %div{:class => "horizontal_separator", :style=>"margin-top:10px;"}
-      %div{:class=>"content_for_nested_models"}
-        %div{:id => "cycleform", :class=>"nested_model_form"}
-          %p Цикл
-          = link_to(content_tag('span', "Добавить" , :class=>"add"),nil,:id=>"create_row_cycle",:onclick=>"$('div#cycleform .data_table div table').append('#{render_single_partial_field(f,Cycle.new,:cycles)}');return false;", :href=>"",:class=>"button")
-          %table{:border=>"1",:class => "data_table"}
-            %thead
-              %th{:width=>"17%"} День 
-              %th{:width=>"35%"} Часа 
-              %th{:width=>"35%",:class=>"transperent_right_border"} Ночные часы
-              %th{:width=>"7%",:class=>"transperent_right_border"}
-              %th{:width=>"5%"}
-              %tr
-                %td{:colspan=>"7"}
-                  %div{:style=>"overflow-y:scroll;height:200px;padding:0;"}
-                    %table{:border=>"1", :class=>"data_table_body"}
-                      - if @schedule_of_working.new_record?
-                        - 10.times do
-                          = f.fields_for :cycles do |builder| 
-                            = render("cycles", :f => builder)
-                      - else
-                        = f.fields_for :cycles do |builder| 
-                          = render("cycles", :f => builder)
-                         
-        %div{:class=>"separation"}
-        %div{:id => "date_counting_form",:class=>"nested_model_form"}
-          %p{:style=>"width:200px;"} Даты отсчета смен
-          = link_to(content_tag('span', "Добавить" , :class=>"add"),nil,:id=>"create_row_date_counting",:onclick=>"$('div#date_counting_form .data_table div table').append('#{render_single_partial_field(f,DateCounting.new,:date_of_countings)}');return false;", :href=>"" ,:class=>"button")
-          %table{:border=>"1",:class => "data_table"}
-            %thead
-              %th{:style=>"width:17%"} № смен
-              %th{:style=>"width:35%"} Началная дата
-              %th{:style=>"width:35%",:class=>"transperent_right_border"} Дата отчсета
-              %th{:style =>"width:7%;",:class=>"transperent_right_border"} 
-              %th{:style =>"width:5%;"} 
-              %tr
-                %td{:colspan=>"5"}
-                  %div{:style=>"overflow-y:scroll;height:200px;padding:0;"}
-                    %table{:border=>"1", :class=>"data_table_body"}
-                      - if @schedule_of_working.new_record?
-                        - 10.times do
-                          = f.fields_for :date_of_countings do |builder|
-                            = render('date_of_countings', :f => builder) 
-                      - else
-                        = f.fields_for :date_of_countings do |builder|
-                          = render('date_of_countings', :f => builder) 
-      %div{:style=>"height:25px;border-top:1px solid #CCC;margin:5px 0;"}
-        = submit_tag "Сохранить", :style => "float:right;"
-  
- 
+%div{:style=>"margin-top:10px;"}
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:920px;"}
+    %div{:class => "form_1c_title"} 
+      %span= @title
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      = form_for @schedule_of_working do |f|
+        %div{:class => "elements"} 
+          %div{:style=>"padding-top:10px;"}
+            .row
+              .two.columns
+                = f.label :schedule_code
+              .two.columns.end.custom_text_field
+                = f.text_field :schedule_code
+            .row
+              .two.columns
+                = f.label :name
+              .six.columns.end.custom_text_field
+                = f.text_field :name
+            .row.collapse
+              .three.columns.fieldset_border_color
+                %fieldset
+                  %legend Цикл для заполнения
+                  = link_to "Добавить", new_schedule_of_working_path(:partial => "cycles"), :remote => true
+                  %table{:id => "cycles_table", :border=>"1", :class=>"data_table"}
+                    %thead
+                      %th День
+                      %th{:style => "width:50px;"} Часы
+                      %th{:style => "width:100px;",:colspan=>"2"} Ночные
+                    %tbody
+                      = f.fields_for :cycles do |f|
+                        = render "cycles", f: f
+              .four.columns.fieldset_border_color
+                %fieldset
+                  %legend Даты отсчета для заполнения
+                  = link_to "Добавить", new_schedule_of_working_path(:partial => "date_of_countings"), :remote => true
+                  %table{:id => "date_of_countings_table", :border=>"1", :class=>"data_table"}
+                    %thead
+                      %th № смены
+                      %th{:style => "width:15px;"} Начальный день
+                      %th{:colspan=>"2"} Дата отсчета
+                    %tbody
+                      = f.fields_for :date_of_countings do |f|
+                        = render "date_of_countings", f: f
+              .five.columns.fieldset_border_color
+                %fieldset
+                  %legend Доп.параметры для заполнения
+                  .row.collapse
+                    .ten.columns{:style => "font-size:12px;"} Корректировать предпраздничные дне(к часам будить добавлено указаная значение)
+                    .two.columns
+                      = f.text_field :precorrect_holiday
+                    .ten.columns{:style => "font-size:12px;"} Корректировать дпраздничные дне(будить установлено указанное значение если часы !=0)
+                    .two.columns
+                      = f.text_field :correct_holiday
+
+        %div{:class => "bottom_tool_box"}
+          .row
+            =f.submit "Сохранить", :style => "float:right", :class => "small button"
+
+

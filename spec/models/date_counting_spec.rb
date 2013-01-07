@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DateCounting do
   before(:each) do
-    @schedule_05 = Factory.build :schedule_05
+    @schedule_05 = FactoryGirl.build :schedule_05
     @schedule_05.save
     @initial_date_of_filling = Date.parse("01.01.2011")
     @end_date_of_filling = Date.parse("31.12.2011")

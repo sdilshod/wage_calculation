@@ -1,0 +1,35 @@
+%div{:style=>"margin-top:10px;"}
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:800px;"}
+    %div{:class => "form_1c_title"} 
+      %span Список сведение графиков работы
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      %div{:class=> "top_tool_box"}
+        = link_to content_tag('span', "Создать" , :class=>"add"), new_sch_of_work_information_path, :remote => true, :class => "small button"
+      %div{:class => "elements"}
+        %table{:border=>"1", :class=>"data_table"}
+          %thead
+            %th №
+            %th Дата
+            %th Код графика
+            %th Часы
+            %th{:colspan=>"4"} Ночные часы
+          %tbody
+            - @sch_of_work_informations.each do |e|
+              %tr{:class => "row_data_table"}
+                %td= @sch_of_work_informations.index(e)+1
+                %td= text_field :sch_of_work_information, :date, :object => e,:size => 10, :style => "border:none;", :readonly => true
+                %td= text_field :sch_of_work_information, :schedule_code, :object => e, :size => 10, :style => "border:none;", :readonly => true
+                %td= text_field :sch_of_work_information, :hour, :object => e, :size => 10, :style => "border:none;", :readonly => true
+                %td= text_field :sch_of_work_information, :night_time, :object => e, :size => 10, :style => "border:none;", :readonly => true
+                %td= link_to image_tag("panel_tools/edit.png", :size=>"14x14"), sch_of_work_information_path(e), :remote => "true", :id => "edit_row_#{e.id}", :title => "Редактировать"
+                %td= link_to image_tag("panel_tools/save.png", :size=>"14x14"), sch_of_work_information_path(e), :method => :put, :remote => "true", :id => "save_row_#{e.id}", :title => "Сохранить"
+                %td= link_to image_tag("panel_tools/delete.png", :size=>"14x14"), sch_of_work_information_path(e), :method => :delete, :remote => "true", :id => "delete_row_#{e.id}", :title => "Удалить"
+
+      %div{:class => "bottom_tool_box"} Здесь будить пагинация
+
+
+
+
+

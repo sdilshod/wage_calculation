@@ -1,0 +1,14 @@
+          - i=1
+          - @sch_of_work_informations.each do |sch|
+            %tr
+              %th{:scope=>"row"}=i
+              %td=sch.date
+              %td=sch.schedule_code
+              %td=sch.hour
+              %td=sch.night_time              
+              %td{:style=>"text-align:center"}
+                =link_to image_tag("panel_tools/edit.png", :size=>"15x15"), edit_sch_of_work_information_path(sch)
+              %td{:style=>"text-align:center"}
+                =link_to image_tag("panel_tools/delete.png", :size=>"15x15"), sch_of_work_information_path(sch), :method => :delete, :confirm => "Удалить выбранный график ?"
+              - i += 1
+

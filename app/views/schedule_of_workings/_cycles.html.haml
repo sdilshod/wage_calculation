@@ -1,11 +1,10 @@
--# prefix = "schedule_of_working[cycles_attributes][]"
-%tr{:style=>"border-right:none;"}
-  %td{:width=>"16%"}
-    = f.text_field :day, :size=>6
+%tr{:class => "row_data_table"}
+  %td{:style => "border-left:none;"}
+    = f.text_field :day
     = f.hidden_field :id unless f.object.new_record?
-  %td{:width=>"35%"}= f.text_field :hour, :size=>15
-  %td{:width=>"35%"}= f.text_field :night_time, :size=>15
-  %td{:style => "width:7%;padding:0;border-right:none",:align=>"center"}
+  %td= f.text_field :hour
+  %td= f.text_field :night_time
+  %td{:style => "border-right:none;align:center"}
     = f.hidden_field :_destroy
     = link_to image_tag("panel_tools/delete.png",:size=>"15x15"), nil, :href =>"", :onclick => "check_nested_attr_destroy(this);return false;"
 

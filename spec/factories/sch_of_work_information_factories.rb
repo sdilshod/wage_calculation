@@ -5,17 +5,21 @@
 # t.decimal :hour, :precision => 10, :scale => 2
 # t.decimal :night_time, :precision => 10, :scale => 2
 
-Factory.define :sch_info, :class => SchOfWorkInformation do |s|
-  s.date "01.01.2011"
-  s.schedule_code "051"
-  s.hour 0
-  s.night_time 0
+FactoryGirl.define do
+  factory :sch_info, :class => SchOfWorkInformation do 
+    date "01.01.2011"
+    schedule_code "051"
+    hour 0
+    night_time 0
+  end
 end
 
-Factory.define :sch_info_06, :class => SchOfWorkInformation do |s|
-  s.date "01.01.2011"
-  s.schedule_code "061"
-  s.hour 0
-  s.night_time 0
+FactoryGirl.define do
+  factory :sch_info_06, :class => SchOfWorkInformation do
+    date "01.01.2011"
+    schedule_code "061"
+    hour 0
+    night_time 0
+  end
 end
 

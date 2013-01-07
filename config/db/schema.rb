@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 7) do
+ActiveRecord::Schema.define(:version => 6) do
 
   create_table "cycles", :force => true do |t|
     t.integer "schedule_of_working_id",                                                 :null => false
@@ -35,10 +35,8 @@ ActiveRecord::Schema.define(:version => 7) do
   end
 
   create_table "schedule_of_workings", :force => true do |t|
-    t.string  "schedule_code"
-    t.string  "name"
-    t.decimal "precorrect_holiday", :precision => 10, :scale => 2
-    t.decimal "correct_holiday",    :precision => 10, :scale => 2
+    t.string "schedule_code"
+    t.string "name"
   end
 
 end
