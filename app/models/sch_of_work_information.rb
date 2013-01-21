@@ -15,6 +15,17 @@ class SchOfWorkInformation < ActiveRecord::Base
   
   validate :customer_validate
 
+#class methods
+  
+  #sum hour of schedule with given params
+  def self.get_hour_by_schedule(date_begin, date_end, schedule)
+    where("date between ? and ? and schedule_code = \"#{schedule}\"",
+          date_begin.strftime, 
+          date_end.strftime).sum(:hour)
+  end
+#------------
+
+
   def to_hash
     h = {
       :sch_of_work_information => {

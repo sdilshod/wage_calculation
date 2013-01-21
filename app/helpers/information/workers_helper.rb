@@ -1,0 +1,2 @@
+module Information::WorkersHelper
+end

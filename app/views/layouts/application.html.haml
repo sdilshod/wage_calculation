@@ -27,16 +27,17 @@
           %a.flyout-toggle{:href=>"#"} 
           %ul.flyout
             %li= link_to "График", schedule_of_workings_path
-            %li= link_to "Сотрудники"
-            %li= link_to "Подразделение организации"
-            %li= link_to "Должности"
+            %li= link_to "Сотрудники", reference_workers_path
+            %li= link_to "Явки/Неявки", reference_absences_path
+            %li= link_to "Подразделение организации", reference_departments_path
+            %li= link_to "Должности", reference_positions_path
         %li.has-flyout
           %a{:href=>"#"}Сведение
           %a.flyout-toggle{:href=>"#"} 
           %ul.flyout
             %li= link_to "Сведение о графиков работы", sch_of_work_informations_path
-            %li= link_to "Работники организации"
-            %li= link_to "Табель рабочего времени"
+            %li= link_to "Работники организации", information_workers_path
+            %li= link_to "Табель рабочего времени", information_time_sheets_path
         %li.has-flyout
           %a{:href=>"#"}Обработки
           %a.flyout-toggle{:href=>"#"}

@@ -24,6 +24,8 @@ ru:
     models:
       schedule_of_working: "График работы"
       cycle: "Цикл"
+      worker: "Сотрудники"
+      absence: "Явки/Неявки"
     attributes:
       schedule_of_working:
         schedule_code: "Код"
@@ -33,6 +35,13 @@ ru:
         date_of_countings:
           session_number: "Номер смены для даты отсчета"
       "cycle/day": "День"
+      worker:
+        code: "Табельный номер"
+        name: "Наименование"
+      absence:
+        code: "Код"
+        name: "Наименование"
+        holiday_or_dayoffwork: "Праздничный или выходной"
     errors:
       messages:
         blank: "не может быть пустым"

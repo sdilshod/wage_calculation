@@ -16,7 +16,10 @@ Dir[Rails.root.join("features/support/bdd_support/*.rb")].each {|f| require f}
 #Dir[Rails.root.join("spec/factories/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
-  # ## Mock Framework
+  
+  DatabaseCleaner.clean_with :truncation
+
+  DatabaseCleaner.strategy = :transaction  # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
   #
@@ -43,7 +46,39 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
 end
 
+module CustomDBData
+  def self.data_of_workers_information
+    
+    [
+      {
+        period: "28.09.2012".to_date, worker_code: "24495", department_code: "068", position_code: "31022",
+        schedule_code: "051", grade: 11, salary: 390450.00, status: 2 
+      },
+      {
+        period: "01.12.2012".to_date, worker_code: "24495", department_code: "068", position_code: "31022",
+        schedule_code: "051", grade: 11, salary: 390450.00, status: 2 
+      },
+      {
+        period: "01.08.2012".to_date, worker_code: "04620", department_code: "068", position_code: "22610",
+        schedule_code: "051", grade: 10, salary: 311850.00, status: 2 
+      },
+      {
+        period: "01.12.2012".to_date, worker_code: "04620", department_code: "068", position_code: "22610",
+        schedule_code: "051", grade: 10, salary: 311850.00, status: 2 
+      },
+      {
+        period: "01.08.2012".to_date, worker_code: "07307", department_code: "068", position_code: "22610",
+        schedule_code: "051", grade: 10, salary: 311850.00, status: 2 
+      },
+      {
+        period: "01.12.2012".to_date, worker_code: "07307", department_code: "068", position_code: "22610",
+        schedule_code: "051", grade: 10, salary: 311850.00, status: 2 
+      }
 
+    ]
+
+  end
+end
 
 
 

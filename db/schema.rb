@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 7) do
+ActiveRecord::Schema.define(:version => 13) do
+
+  create_table "absences", :id => false, :force => true do |t|
+    t.string  "code",                  :limit => 4
+    t.string  "name"
+    t.boolean "holiday_or_dayoffwork"
+  end
 
   create_table "cycles", :force => true do |t|
     t.integer "schedule_of_working_id",                                                 :null => false
@@ -27,6 +33,16 @@ ActiveRecord::Schema.define(:version => 7) do
     t.date    "counting_date"
   end
 
+  create_table "departments", :id => false, :force => true do |t|
+    t.string "code", :limit => 3
+    t.string "name"
+  end
+
+  create_table "positions", :id => false, :force => true do |t|
+    t.string "code", :limit => 5
+    t.string "name"
+  end
+
   create_table "sch_of_work_informations", :force => true do |t|
     t.date    "date",                                                          :null => false
     t.string  "schedule_code",                                                 :null => false
@@ -39,6 +55,33 @@ ActiveRecord::Schema.define(:version => 7) do
     t.string  "name"
     t.decimal "precorrect_holiday", :precision => 10, :scale => 2
     t.decimal "correct_holiday",    :precision => 10, :scale => 2
+  end
+
+  create_table "time_sheets", :force => true do |t|
+    t.date    "period"
+    t.string  "worker_code",   :limit => 5
+    t.date    "date_begin"
+    t.date    "date_end"
+    t.string  "absence_code"
+    t.string  "schedule_code"
+    t.decimal "hour",                       :precision => 5, :scale => 2
+  end
+
+  create_table "workers", :id => false, :force => true do |t|
+    t.string "code", :limit => 5
+    t.string "name"
+  end
+
+  create_table "workers_informations", :force => true do |t|
+    t.date    "period"
+    t.string  "worker_code",     :limit => 5
+    t.string  "department_code", :limit => 3
+    t.string  "position_code",   :limit => 5
+    t.string  "schedule_code",   :limit => 3
+    t.integer "grade"
+    t.decimal "salary",                       :precision => 10, :scale => 2, :default => 0.0
+    t.decimal "tariff",                       :precision => 10, :scale => 2, :default => 0.0
+    t.string  "status"
   end
 
 end

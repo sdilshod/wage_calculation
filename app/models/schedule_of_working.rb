@@ -38,6 +38,7 @@ class ScheduleOfWorking < ActiveRecord::Base
 
 #Constants
 HOLIDAYS=[
+  ["День конституции", "08.12.2012".to_date],
   ["Новый год", "01.01.2013".to_date],
   ["День женшинь", "08.03.2013".to_date]
  ]
@@ -70,6 +71,15 @@ def self.fill_information_for(fill_information)
       end
     end
   end
+end
+
+def self.schedules
+  arr=[]
+  all.each do |e|
+    sch_c = e.schedule_code
+    e.date_of_countings.each{ |d_counting| arr << sch_c.to_s+d_counting.session_number.to_s}
+  end
+  arr
 end
 
 def self.classifiers_numbers(classifiers=true, classifier_number=nil)

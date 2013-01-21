@@ -1,0 +1,42 @@
+%div{:style=>"margin-top:10px;"}
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:800px;"}
+    %div{:class => "form_1c_title"} 
+      %span Сведение о работниках организации
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      %div{:class=> "top_tool_box"}
+        = link_to content_tag('span', "Создать" , :class=>"add"), new_information_worker_path, {:class => "small button"}
+      %div{:class => "elements"}
+        %table{:border=>"1", :class=>"data_table"}
+          %thead
+            %th №
+            %th Дата
+            %th таб№
+            %th Цех
+            %th Должность
+            %th Разряд
+            %th Оклад
+            %th Тариф
+            %th Статус
+            %th{:colspan=>"2"}
+          %tbody
+            - i=1
+            - @workers.each do |w|
+              %tr
+                %th{:scope=>"row"}=i
+                %td=w.period
+                %td=w.worker_code
+                %td=w.department_code
+                %td=w.position_code
+                %td=w.grade
+                %td=w.salary
+                %td=w.tariff
+                %td=w.current_status_name
+                %td{:style=>"text-align:center"}
+                  =link_to image_tag("panel_tools/edit.png", :size=>"12x12"), edit_information_worker_path(w), :title => "Редактировать"
+                %td{:style=>"text-align:center"}
+                  =link_to image_tag("panel_tools/delete.png", :size=>"12x12"), information_worker_path(w), :method => :delete, :confirm => "Удалить выбранный график ?", :title => "Удалить"
+                - i += 1
+      %div{:class => "bottom_tool_box"} Здесь будить пагинация
+

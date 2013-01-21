@@ -30,6 +30,19 @@ WageCalculation::Application.routes.draw do
     match :filling, :via => [:get, :post], :on => :collection
   end
   resources :sch_of_work_informations
+
+  namespace :reference do
+    resources :workers
+    resources :absences
+    resources :departments
+    resources :positions
+  end
+  
+  namespace :information do
+    resources :time_sheets
+    resources :workers
+  end
+
   # Sample resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales

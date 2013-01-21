@@ -1,0 +1,64 @@
+%div{:style=>"margin-top:10px;"}
+  = content_for :message_window do 
+    = error_messages(@worker)
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:580px;"}
+    %div{:class => "form_1c_title"} 
+      %span= title
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      = form_for @worker, params_for_form do |f|
+        %div{:class => "elements"} 
+          %div{:style=>"padding-top:10px;"}
+            .row
+              .two.columns
+                = f.label :period
+              .two.columns.end.custom_text_field
+                = f.text_field :period
+            .row
+              .two.columns
+                = f.label :worker_code
+              .two.columns.custom_text_field
+                = f.text_field :worker_code, :onchange => "$.get('#{information_time_sheets_url}.js', {worker_id : this.value})"
+              .seven.columns.end.custom_text_field
+                %label{:id=>"worker_name"}
+            .row
+              .two.columns
+                = f.label :department_code
+              .two.columns.custom_text_field
+                = f.text_field :department_code
+              .two.columns
+                = f.label :position_code
+              .two.columns.end.custom_text_field
+                = f.text_field :position_code
+            .row
+              .two.columns
+                = f.label :schedule_code
+              .two.columns.end.custom_text_field
+                = f.text_field :schedule_code
+            .row
+              .two.columns
+                = f.label :grade
+              .two.columns.end.custom_text_field
+                = f.text_field :grade
+            .row
+              .two.columns
+                = f.label :salary
+              .two.columns.end.custom_text_field
+                = f.text_field :salary
+            .row
+              .two.columns
+                = f.label :tariff
+              .two.columns.end.custom_text_field
+                = f.text_field :tariff
+            .row
+              .two.columns
+                = f.label :status
+              .three.columns.end
+                = f.select :status, WorkersInformation::WORKERS_STATUS
+        %div{:class => "bottom_tool_box"}
+          .row
+            .nine.columns
+              =f.submit "Сохранить", :style => "float:right", :class => "small button"
+
+

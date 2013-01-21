@@ -1,0 +1,29 @@
+%div{:style=>"margin-top:10px;"}
+  = content_for :message_window do 
+    = error_messages(@position)
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:450px;"}
+    %div{:class => "form_1c_title"} 
+      %span= title
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      = form_for @position, params_for_form do |f|
+        %div{:class => "elements"} 
+          %div{:style=>"padding-top:10px;"}
+            .row
+              .two.columns
+                = f.label :code
+              .two.columns.end.custom_text_field
+                = f.text_field :code
+            .row
+              .two.columns
+                = f.label :name
+              .five.columns.end.custom_text_field
+                = f.text_field :name
+
+        %div{:class => "bottom_tool_box"}
+          .row
+            .seven.columns
+              =f.submit "Сохранить", :style => "float:right", :class => "small button"
+
+

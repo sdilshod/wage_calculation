@@ -15,6 +15,8 @@ FactoryGirl.define do
   factory :schedule_05, :class => ScheduleOfWorking do
     schedule_code "05"  
     name "Дневной график"
+    precorrect_holiday -1
+    correct_holiday 0
     h_cycles = [
       {:day => 1, :hour => 8.25, :night_time => 0},
       {:day => 2, :hour => 8.25, :night_time => 0},
