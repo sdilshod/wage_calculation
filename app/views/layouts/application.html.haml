@@ -39,11 +39,25 @@
             %li= link_to "Работники организации", information_workers_path
             %li= link_to "Табель рабочего времени", information_time_sheets_path
         %li.has-flyout
+          %a{:href=>"#"}Расчеты
+          %a.flyout-toggle{:href=>"#"} 
+          %ul.flyout
+            %li= link_to "Журнал расчетов" 
+            %li
+              %div{:style=>"border-bottom:1px solid black; "}
+            %li= link_to "Начисление ...", charges_path
+            %li= link_to "Удержание ...", deductions_path
+        %li.has-flyout
           %a{:href=>"#"}Обработки
           %a.flyout-toggle{:href=>"#"}
           %ul.flyout
             %li= link_to "Заполнить графиков работы", filling_schedule_of_workings_path
             %li= link_to "Сформировать табель рабочего времени", filling_schedule_of_workings_path
+        %li.has-flyout
+          %a{:href=>"#"}Параметры
+          %a.flyout-toggle{:href=>"#"}
+          %ul.flyout
+            %li= link_to "Изменение расчетного периода", app_parameters_account_period_path
     %div{:id=>"content"}
       %div
         = yield

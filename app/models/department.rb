@@ -1,3 +1,13 @@
+# encoding: utf-8
+#
+# == Schema Information
+#
+# Table name: departments
+#
+#  code :string(3)        primary key
+#  name :string(255)
+#
+
 class Department < ActiveRecord::Base
   self.primary_key = "code"
 

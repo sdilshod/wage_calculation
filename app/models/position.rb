@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: positions
+#
+#  code :string(5)        primary key
+#  name :string(255)
+#
+
 class Position < ActiveRecord::Base
   self.primary_key = "code"
 

@@ -1,0 +1,24 @@
+%div{:style=>"margin-top:10px;"}
+  = content_for :message_window do 
+    error_messages(@t_sh)
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:320px;"}
+    %div{:class => "form_1c_title"} 
+      %span Изменение текушего расчетного периода
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      = form_for @account_period, :url => app_parameters_account_period_path do |f|
+        %div{:class => "elements"} 
+          %div{:style=>"padding-top:10px;"}
+            .row
+              .two.columns
+                = label_tag :name, "Расчетный период"
+              .two.columns.end.custom_text_field
+                = f.text_field :date_
+
+        %div{:class => "bottom_tool_box"}
+          .row
+            .five.columns
+              =f.submit "Сохранить", :style => "float:right", :class => "small button"
+
+

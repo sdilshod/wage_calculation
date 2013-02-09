@@ -1,9 +1,14 @@
 # encoding: utf-8
-
-#t.integer :schedule_of_working_id, :null => false
-#t.integer :day
-#t.decimal :hour, :precision => 10, :scale => 2
-#t.decimal :hour_night, :precision => 10, :scale => 2
+# == Schema Information
+#
+# Table name: cycles
+#
+#  id                     :integer          not null, primary key
+#  schedule_of_working_id :integer          not null
+#  day                    :integer
+#  hour                   :decimal(10, 2)   default(0.0)
+#  night_time             :decimal(10, 2)   default(0.0)
+#
 
 
 class Cycle < ActiveRecord::Base

@@ -6,7 +6,12 @@
       %span{:style=>"float:right;"} X
     %div{:class=>"form_content"}
       %div{:class=> "top_tool_box"}
-        = link_to content_tag('span', "Создать" , :class=>"add"), new_information_time_sheet_path, {:class => "small button"}
+        .row
+          .three.columns
+            = link_to content_tag('span', "Создать запись" , :class=>"add"), new_information_time_sheet_path, {:class => "small button"}
+          = form_tag filling_information_time_sheets_path do |f|
+            .three.columns
+              = submit_tag "Автоматический сформировать за #{AppConstant.account_period}", {:class => "small button"}
       %div{:class => "elements"}
         %table{:border=>"1", :class=>"data_table"}
           %thead

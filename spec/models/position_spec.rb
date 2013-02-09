@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: positions
+#
+#  code :string(5)        primary key
+#  name :string(255)
+#
+
 require 'spec_helper'
 
 describe Position do

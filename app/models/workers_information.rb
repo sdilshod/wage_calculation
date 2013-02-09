@@ -1,3 +1,20 @@
+# encoding: utf-8
+# == Schema Information
+#
+# Table name: workers_informations
+#
+#  id              :integer          not null, primary key
+#  period          :date
+#  worker_code     :string(5)
+#  department_code :string(3)
+#  position_code   :string(5)
+#  schedule_code   :string(3)
+#  grade           :integer
+#  salary          :decimal(10, 2)   default(0.0)
+#  tariff          :decimal(10, 2)   default(0.0)
+#  status          :string(255)
+#
+
 ## encoding: utf-8
 #-------------
 
@@ -38,6 +55,15 @@ class WorkersInformation < ActiveRecord::Base
 #object methods
   def current_status_name
     WorkersInformation::WORKERS_STATUS.detect{|e| e[1] == status}[0]
+  end
+
+  def calc_wage h_d, norm_of_month
+    if !salary.blank? && salary != 0
+      return salary/norm_of_month*h_d.day
+    else
+      return tariff*h_d.hour
+    end
+    
   end
 #---------------
 
@@ -87,14 +113,14 @@ class WorkersInformation < ActiveRecord::Base
 
     if status == "1"
       s = WorkersInformation.where("worker_code = ? and status = '1'", worker_code)
-      unless s.blank?
+      if !s.blank? && new_record?
         errors[:base] << "У сотрудника уже есть документ о приеме!"         
       end
     end
 
     s = WorkersInformation.where("worker_code = ? and status = '3'", worker_code)
     unless s.blank?
-      errors[:base] << "У сотрудника уже уволен с #{s.period.strftime}"
+      errors[:base] << "Cотрудник уже уволен с #{s.period.strftime}"
     end
 
     # надо проверить на наличия записи на приемНаРаботу. Не можить быть одному сотруднику два записи по ПриемНаРаботу.

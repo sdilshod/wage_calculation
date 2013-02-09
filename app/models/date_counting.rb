@@ -1,9 +1,15 @@
 # encoding: utf-8
+# == Schema Information
+#
+# Table name: date_countings
+#
+#  id                     :integer          not null, primary key
+#  schedule_of_working_id :integer          not null
+#  session_number         :integer          not null
+#  initial_day            :integer
+#  counting_date          :date
+#
 
-#t.integer :schedule_of_working_id, :null => false
-#t.integer :session_number, :null => false
-#t.integer :initial_day
-#t.date    :counting_date
 
 class DateCounting < ActiveRecord::Base
 #----associations----
@@ -35,12 +41,12 @@ class DateCounting < ActiveRecord::Base
       night_time = cycle_row.night_time
   
       #cheking initial date for holiday
-      if holiday_value(initial_date) == initial_date
-        hour = schedule_of_working.correct_holiday unless cycle_row.hour.blank?
-        night_time = schedule_of_working.correct_holiday unless cycle_row.night_time.blank?
-      elsif holiday_value(initial_date).class == Array
-        hour = cycle_row.hour + schedule_of_working.precorrect_holiday
-        night_time = cycle_row.night_time + schedule_of_working.precorrect_holiday
+      if ScheduleOfWorking.holiday_value(initial_date) == initial_date
+        hour = schedule_of_working.correct_holiday unless cycle_row.hour == 0
+        night_time = schedule_of_working.correct_holiday unless cycle_row.night_time == 0
+      elsif ScheduleOfWorking.holiday_value(initial_date).class == Array
+        hour += schedule_of_working.precorrect_holiday unless hour == 0
+        night_time += schedule_of_working.precorrect_holiday unless night_time == 0
       end
 
       arr_schedule_info << {:date => initial_date, 
@@ -78,24 +84,24 @@ class DateCounting < ActiveRecord::Base
     schedule_of_working.schedule_code + session_number.to_s if schedule_of_working
   end
 
-  def holiday_value date
-    #return date - holiday
-    #return date, 1 - preholiday
-    a = ScheduleOfWorking::HOLIDAYS
-    return nil if a.blank?
-    
-    a.each do |e|
-      if e[1] == date
-        return date
-        break
-      elsif e[1] == date+1.day
-        return date, 1
-        break      
-      end
-    end
+#  def holiday_value date
+#    #return date - holiday
+#    #return date, 1 - preholiday
+#    a = ScheduleOfWorking::HOLIDAYS
+#    return nil if a.blank?
+#    
+#    a.each do |e|
+#      if e[1] == date
+#        return date
+#        break
+#      elsif e[1] == date+1.day
+#        return date, 1
+#        break      
+#      end
+#    end
 
-    return nil
-  end
+#    return nil
+#  end
 
 #---instance methods
 

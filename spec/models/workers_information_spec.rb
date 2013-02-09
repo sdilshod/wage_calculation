@@ -1,4 +1,20 @@
 # encoding: utf-8
+# == Schema Information
+#
+# Table name: workers_informations
+#
+#  id              :integer          not null, primary key
+#  period          :date
+#  worker_code     :string(5)
+#  department_code :string(3)
+#  position_code   :string(5)
+#  schedule_code   :string(3)
+#  grade           :integer
+#  salary          :decimal(10, 2)   default(0.0)
+#  tariff          :decimal(10, 2)   default(0.0)
+#  status          :string(255)
+#
+
 
 require 'spec_helper'
 

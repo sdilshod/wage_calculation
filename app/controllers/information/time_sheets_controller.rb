@@ -44,5 +44,24 @@ class Information::TimeSheetsController < ApplicationController
     redirect_to information_time_sheets_path
   end
 
+  def filling
+    period = AppConstant.account_period
+    if period.blank?
+      flash[:notice] = "Не указан период формирование табеля"
+      index; render(:action => :index)
+      return
+    end
+    worked_workers = WorkersInformation.get_workings_at(period.to_date.at_end_of_month)
+    unless worked_workers.blank?
+      TimeSheet.fill_with_schedule worked_workers
+      redirect_to information_time_sheets_path
+    else 
+      flash[:notice] = "На дату #{period}, нет работающих сотрудников"
+      index; render(:action => :index)
+      return
+    end
+    
+  end
+
 end
 

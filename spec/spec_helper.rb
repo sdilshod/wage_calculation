@@ -16,10 +16,20 @@ Dir[Rails.root.join("features/support/bdd_support/*.rb")].each {|f| require f}
 #Dir[Rails.root.join("spec/factories/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
-  
-  DatabaseCleaner.clean_with :truncation
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
 
-  DatabaseCleaner.strategy = :transaction  # ## Mock Framework
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
+
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
   #
@@ -48,39 +58,48 @@ end
 
 module CustomDBData
   def self.data_of_workers_information
-    
+    #1.392
+    #1.531
+
+    #1.417    
+    #1.559
+
     [
       {
         period: "28.09.2012".to_date, worker_code: "24495", department_code: "068", position_code: "31022",
-        schedule_code: "051", grade: 11, salary: 390450.00, status: 2 
+        schedule_code: "051", grade: 11, salary: 543506.40, status: 2 
       },
       {
         period: "01.12.2012".to_date, worker_code: "24495", department_code: "068", position_code: "31022",
-        schedule_code: "051", grade: 11, salary: 390450.00, status: 2 
+        schedule_code: "051", grade: 11, salary: 597778.95, status: 2 
       },
       {
         period: "01.08.2012".to_date, worker_code: "04620", department_code: "068", position_code: "22610",
-        schedule_code: "051", grade: 10, salary: 311850.00, status: 2 
+        schedule_code: "051", grade: 10, salary: 441891.45, status: 2 
       },
       {
         period: "01.12.2012".to_date, worker_code: "04620", department_code: "068", position_code: "22610",
-        schedule_code: "051", grade: 10, salary: 311850.00, status: 2 
+        schedule_code: "051", grade: 10, salary: 486174.15, status: 2 
       },
       {
         period: "01.08.2012".to_date, worker_code: "07307", department_code: "068", position_code: "22610",
-        schedule_code: "051", grade: 10, salary: 311850.00, status: 2 
+        schedule_code: "051", grade: 10, salary: 441891.45, status: 2 
       },
       {
         period: "01.12.2012".to_date, worker_code: "07307", department_code: "068", position_code: "22610",
-        schedule_code: "051", grade: 10, salary: 311850.00, status: 2 
+        schedule_code: "051", grade: 10, salary: 486174.15, status: 2 
       }
 
     ]
 
   end
+
+  def self.get_account_period  
+    AppConstant.create name: "account_period", const_type: "date"
+    AppConstant.create_methods
+    AppConstant.account_period "20121201".to_date
+    AppConstant.account_period
+  end
+
 end
-
-
-
-
 

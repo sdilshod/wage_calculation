@@ -1,9 +1,21 @@
+# == Schema Information
+#
+# Table name: date_countings
+#
+#  id                     :integer          not null, primary key
+#  schedule_of_working_id :integer          not null
+#  session_number         :integer          not null
+#  initial_day            :integer
+#  counting_date          :date
+#
+
 require 'spec_helper'
 
 describe DateCounting do
   before(:each) do
     @schedule_05 = FactoryGirl.build :schedule_05
     @schedule_05.save
+    puts @schedule_05.errors[:name]
     @initial_date_of_filling = Date.parse("01.01.2011")
     @end_date_of_filling = Date.parse("31.12.2011")
   end

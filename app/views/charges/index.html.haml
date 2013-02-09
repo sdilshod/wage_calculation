@@ -1,0 +1,45 @@
+%div{:style=>"margin-top:10px;"}
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:800px;"}
+    %div{:class => "form_1c_title"} 
+      %span Список начислении
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      %div{:class=> "top_tool_box"}
+        .row
+          .three.columns
+            = link_to content_tag('span', "Создать запись" , :class=>"add"), new_charge_path, {:class => "small button"}
+          = form_tag filling_charges_path do |f|
+            .three.columns
+              = submit_tag "Начислить за #{AppConstant.account_period}", {:class => "small button"}
+      %div{:class => "elements"}
+        %table{:border=>"1", :class=>"data_table"}
+          %thead
+            %th №
+            %th отчетный период
+            %th таб№
+            %th ФИО
+            %th Дата начало
+            %th Дата окончание
+            %th Код начисление
+            %th Сумма
+            %th{:colspan=>"2"}
+          %tbody
+            - i=1
+            - @charges.each do |ch|
+              %tr
+                %th{:scope=>"row"}=i
+                %td=ch.period
+                %td=ch.worker_code
+                %td=ch.worker.name
+                %td=ch.date_begin
+                %td=ch.date_end
+                %td=ch.type_of_calc
+                %td=ch.summ
+                %td{:style=>"text-align:center"}
+                  =link_to image_tag("panel_tools/edit.png", :size=>"12x12"), edit_charge_path(ch), :title => "Редактировать"
+                %td{:style=>"text-align:center"}
+                  =link_to image_tag("panel_tools/delete.png", :size=>"12x12"), charge_path(ch), :method => :delete, :confirm => "Удалить выбранный график ?", :title => "Удалить"
+                - i += 1
+      %div{:class => "bottom_tool_box"} Здесь будить пагинация
+

@@ -1,4 +1,15 @@
 # encoding: utf-8
+# == Schema Information
+#
+# Table name: sch_of_work_informations
+#
+#  id            :integer          not null, primary key
+#  date          :date             not null
+#  schedule_code :string(255)      not null
+#  hour          :decimal(10, 2)   default(0.0)
+#  night_time    :decimal(10, 2)   default(0.0)
+#
+
 
 require 'spec_helper'
 

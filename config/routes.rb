@@ -39,8 +39,26 @@ WageCalculation::Application.routes.draw do
   end
   
   namespace :information do
-    resources :time_sheets
+    resources :time_sheets do
+      match :filling, :via => :post, :on => :collection
+    end
     resources :workers
+  end
+
+  resources :charges do
+    match :filling, :via => :post, :on => :collection
+  end
+
+  resources :deductions do
+    match :filling, :via => :post, :on => :collection
+  end
+
+  resources :deductions do 
+    match :filling, :via => :post, :on => :collection
+  end
+
+  namespace :app_parameters do
+    match :account_period, :via => [:get, :put]
   end
 
   # Sample resource route with sub-resources:

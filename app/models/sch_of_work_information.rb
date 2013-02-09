@@ -1,9 +1,14 @@
 # encoding: utf-8
-
-# t.date :date, :null => false
-# t.string :schedule_code, :null => false
-# t.decimal :hour, :precision => 10, :scale => 2
-# t.decimal :night_time, :precision => 10, :scale => 2
+# == Schema Information
+#
+# Table name: sch_of_work_informations
+#
+#  id            :integer          not null, primary key
+#  date          :date             not null
+#  schedule_code :string(255)      not null
+#  hour          :decimal(10, 2)   default(0.0)
+#  night_time    :decimal(10, 2)   default(0.0)
+#
 
 
 class SchOfWorkInformation < ActiveRecord::Base
@@ -18,10 +23,10 @@ class SchOfWorkInformation < ActiveRecord::Base
 #class methods
   
   #sum hour of schedule with given params
-  def self.get_hour_by_schedule(date_begin, date_end, schedule)
-    where("date between ? and ? and schedule_code = \"#{schedule}\"",
-          date_begin.strftime, 
-          date_end.strftime).sum(:hour)
+  def self.get_hour_by_schedule(date_begin, date_end, schedule_code)
+    select("sum(hour) as hour, count(hour) as day").
+    where("date between ? and ? and schedule_code = \"#{schedule_code}\" and hour != 0",
+          date_begin.strftime, date_end.strftime).first
   end
 #------------
 

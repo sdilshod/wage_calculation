@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: time_sheets
+#
+#  id            :integer          not null, primary key
+#  period        :date
+#  worker_code   :string(5)
+#  date_begin    :date
+#  date_end      :date
+#  absence_code  :string(255)
+#  schedule_code :string(255)
+#  hour          :decimal(5, 2)
+#
+
 require 'spec_helper'
 
 describe TimeSheet do
@@ -10,14 +24,14 @@ describe TimeSheet do
     @position_31022 = FactoryGirl.create :position_31022
     @position_10022 = FactoryGirl.create :position_10022
     @position_22610 = FactoryGirl.create :position_22610
-
-    ScheduleOfWorking.fill_information_for(:date_begin => "01.12.2012",
-                                           :date_end => "31.12.2012")
+    @account_period = CustomDBData.get_account_period
+    ScheduleOfWorking.fill_information_for(:date_begin => @account_period,
+                                           :date_end => @account_period.at_end_of_month)
     CustomDBData.data_of_workers_information.each do |e|
       WorkersInformation.create e
     end
 
-    @workers = WorkersInformation.get_workings_at "01.12.2012".to_date
+    @workers = WorkersInformation.get_workings_at @account_period
 
   end
 
@@ -25,12 +39,6 @@ describe TimeSheet do
   it ".fill_with_schedule" do
     TimeSheet.fill_with_schedule @workers
     TimeSheet.count.should == 3
-
-    TimeSheet.data_of_current_account_period.each do |e|
-      SchOfWorkInformation.get_hour_by_schedule(e.date_begin, e.date_end, e.schedule_code).should == 166.25
-    end
-
-
   end
 
 end

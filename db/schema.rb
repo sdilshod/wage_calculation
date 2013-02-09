@@ -11,12 +11,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 13) do
+ActiveRecord::Schema.define(:version => 16) do
 
   create_table "absences", :id => false, :force => true do |t|
     t.string  "code",                  :limit => 4
     t.string  "name"
     t.boolean "holiday_or_dayoffwork"
+  end
+
+  create_table "app_constants", :force => true do |t|
+    t.string "name"
+    t.string "const_type"
+    t.date   "date_"
+    t.string "string_"
+  end
+
+  create_table "calculations", :force => true do |t|
+    t.date    "period",                                                                       :null => false
+    t.string  "worker_code",   :limit => 5,                                                   :null => false
+    t.date    "date_begin",                                                                   :null => false
+    t.date    "date_end",                                                                     :null => false
+    t.string  "type_of_calc",                                                                 :null => false
+    t.decimal "summ",                       :precision => 10, :scale => 2, :default => 0.0
+    t.boolean "auto_reported",                                             :default => false
   end
 
   create_table "cycles", :force => true do |t|

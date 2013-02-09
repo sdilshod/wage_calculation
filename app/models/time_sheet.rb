@@ -1,4 +1,18 @@
 # encoding: utf-8
+# == Schema Information
+#
+# Table name: time_sheets
+#
+#  id            :integer          not null, primary key
+#  period        :date
+#  worker_code   :string(5)
+#  date_begin    :date
+#  date_end      :date
+#  absence_code  :string(255)
+#  schedule_code :string(255)
+#  hour          :decimal(5, 2)
+#
+
 #-------
 
 #t.date :period #- Отчетный период расчета з\п
@@ -21,7 +35,7 @@ class TimeSheet < ActiveRecord::Base
   belongs_to :worker, :foreign_key => "worker_code"
 #Constants
 
-  ACCOUNT_PERIOD = "01.12.2012".to_date
+#  ACCOUNT_PERIOD = "01.12.2012".to_date
 #-------------
 
 # class methods
@@ -29,11 +43,12 @@ class TimeSheet < ActiveRecord::Base
     return nil if workers_info.blank?
 
     transaction do
+      delete_all("period = '#{AppConstant.account_period}'")
       workers_info.each do |worker_info|
-        create( :period => self::ACCOUNT_PERIOD,
+        create( :period => AppConstant.account_period,
                 :worker_code => worker_info.worker_code,
-                :date_begin => self::ACCOUNT_PERIOD,
-                :date_end => self::ACCOUNT_PERIOD.at_end_of_month, 
+                :date_begin => AppConstant.account_period,
+                :date_end => AppConstant.account_period.at_end_of_month, 
                 :schedule_code => worker_info.schedule_code)              
       end
     end
@@ -41,7 +56,7 @@ class TimeSheet < ActiveRecord::Base
   end
 
   def self.data_of_current_account_period
-    where("period between ? and ?", ACCOUNT_PERIOD, ACCOUNT_PERIOD.at_end_of_month)
+    where("period between ? and ?", AppConstant.account_period, AppConstant.account_period.at_end_of_month)
   end
 #-------------------
 

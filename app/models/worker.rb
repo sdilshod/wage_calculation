@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: workers
+#
+#  code :string(5)        primary key
+#  name :string(255)
+#
+
 
 class Worker < ActiveRecord::Base
   self.primary_key = "code"

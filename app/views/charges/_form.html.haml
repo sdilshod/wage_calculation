@@ -1,0 +1,45 @@
+%div{:style=>"margin-top:10px;"}
+  = content_for :message_window do 
+    = error_messages(@charge)
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:580px;"}
+    %div{:class => "form_1c_title"} 
+      %span= title
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      = form_for @charge, params_for_form do |f|
+        %div{:class => "elements"} 
+          %div{:style=>"padding-top:10px;"}
+            .row
+              .two.columns
+                = f.label :period
+              .two.columns.end.custom_text_field
+                = f.text_field :period
+            .row
+              .two.columns
+                = f.label :worker_code
+              .two.columns.custom_text_field
+                = f.text_field :worker_code, :onchange => "$.get('#{information_time_sheets_url}.js', {worker_id : this.value})"
+              .seven.columns.end.custom_text_field
+                %label{:id=>"worker_name"}
+            .row
+              .two.columns
+                = f.label :type_of_calc
+              .two.columns.end.custom_text_field
+                = f.text_field :type_of_calc
+              .two.columns
+                = f.label :year_month
+              .two.columns.end.custom_text_field
+                = f.text_field :year_month
+            .row
+              .two.columns
+                = f.label :summ
+              .two.columns.end.custom_text_field
+                = f.text_field :summ
+
+        %div{:class => "bottom_tool_box"}
+          .row
+            .nine.columns
+              =f.submit "Сохранить", :style => "float:right", :class => "small button"
+
+

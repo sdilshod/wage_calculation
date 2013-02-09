@@ -25,6 +25,7 @@ gem 'haml-rails'
 group :development do
   gem 'gherkin'
   gem 'rspec-rails'
+  gem 'annotate'
 end
 
 
