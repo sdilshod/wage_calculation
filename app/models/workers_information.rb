@@ -33,6 +33,8 @@ class WorkersInformation < ActiveRecord::Base
             :position_code, :status, :schedule_code, :presence => true
 
   validate :custom_validation
+
+  belongs_to :worker, :foreign_key => "worker_code", :class_name => "Worker"
 #                   :length => {:is => 5}, :format => {:with => /[0-9]/}
 
 #Constants
@@ -42,13 +44,17 @@ class WorkersInformation < ActiveRecord::Base
 #----------------------
 
 
-  def self.get_workings_at(cut_period)
+  def self.get_workings_at(cut_period, worker_code=nil)
+    str_sql = "true"
+    str_sql += worker_code.blank? ? '' : " and last_row.worker_code='#{worker_code}'"
     select("workers_info.*")
       .from(self.select("Max(period) as period, worker_code")
          .where("period <= ? and status <> '3'",cut_period).group("worker_code")
       .as("last_row"))
       .joins("INNER JOIN workers_informations AS workers_info 
               ON workers_info.period=last_row.period and workers_info.worker_code=last_row.worker_code")
+      .where(str_sql)
+
   end
 
 

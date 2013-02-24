@@ -22,6 +22,8 @@
             %th Дата начало
             %th Дата окончание
             %th Код начисление
+            %th Час
+            %th День
             %th Сумма
             %th{:colspan=>"2"}
           %tbody
@@ -35,6 +37,8 @@
                 %td=ch.date_begin
                 %td=ch.date_end
                 %td=ch.type_of_calc
+                %td=ch.hour
+                %td=ch.day
                 %td=ch.summ
                 %td{:style=>"text-align:center"}
                   =link_to image_tag("panel_tools/edit.png", :size=>"12x12"), edit_charge_path(ch), :title => "Редактировать"

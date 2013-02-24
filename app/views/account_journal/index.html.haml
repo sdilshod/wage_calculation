@@ -1,0 +1,58 @@
+%div{:style=>"margin-top:10px;"}
+  = flash[:notice]
+  %div{:class => "form_1c", :style => "width:750px;"}
+    %div{:class => "form_1c_title"} 
+      %span Журнал расчетов
+      %span{:style=>"float:right;"} X
+    %div{:class=>"form_content"}
+      %div{:class=> "top_tool_box"}
+        .row
+          .one.column
+            Месяц
+          .two.columns.custom_text_field
+            = text_field_tag :acc_period, AppConstant.account_period
+          .one.columns
+            Таб№
+          .two.columns.custom_text_field
+            = text_field_tag :worker_id, nil, :onchange => "$.get('#{account_journal_url}.js', {worker_id : this.value, acc_period : $('#acc_period').val()})"
+          .four.columns.end
+            %label{id: "worker_name"}
+        .row
+          .two.columns
+            = button_tag "Табель", :onclick => "var w=$('#worker_id').val();var acc_period=$('#acc_period').val();window.open('#{report_time_sheet_url}'+'?worker_id='+w+'&acc_period='+acc_period,'choosestaffgr', 'status=no,menubar=no,scrollbars=yes,resizable=yes,width=800,height=400')"
+      .row
+        .seven.columns{:style => "border-right: 1px solid #CCC;padding-right:0;"}
+          .row
+            .twelve.columns.end
+              %div{:class => "elements"}
+                %table{:border=>"1", :id => "charges", :class=>"data_table"}
+                  %thead
+                    %th{style: "width:10px;"} Код начисление
+                    %th Месяц
+                    %th Час
+                    %th День
+                    %th Сумма
+                  %tbody
+          .row
+            .ten.columns.end
+              %div{:class => "elements"}
+                %table{:border=>"1", :id => "deductions", :class=>"data_table"}
+                  %thead
+                    %th{style: "width:10px;"} Код удеражние
+                    %th Месяц
+                    %th Сумма
+                  %tbody
+        .five.columns.end
+          .five.column
+            %p Начисление
+            %p Удержание
+            %p На руки
+          .five.columns.end
+            .right
+              %p{:id => "charge_sum", :style => "border-bottom: 1px solid black;width:100%;"} 1000000000.00
+              %p{:id => "deduction_sum", :style => "border-bottom: 1px solid black;"} 0.00
+              %p{:id => "to_hand", :style => "border-bottom: 1px solid black;"} 0.00
+
+
+
+

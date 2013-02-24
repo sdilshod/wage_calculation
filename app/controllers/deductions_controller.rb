@@ -37,5 +37,23 @@ class DeductionsController < ApplicationController
     end
     redirect_to deductions_path
   end
-  
+
+  def filling
+
+    if Calculation.deduction
+      redirect_to deductions_path
+    else 
+      flash[:notice] = "Удержание не выполнена"
+      index; render(:action => :index)
+      return
+    end
+    
+  end
+
+
+ 
 end
+
+
+
+

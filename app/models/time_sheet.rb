@@ -39,25 +39,98 @@ class TimeSheet < ActiveRecord::Base
 #-------------
 
 # class methods
+
+  #default filling of time sheet with worked workers
   def self.fill_with_schedule workers_info
     return nil if workers_info.blank?
-
+    acc_period = AppConstant.account_period
     transaction do
-      delete_all("period = '#{AppConstant.account_period}'")
+      delete_all("period = '#{AppConstant.account_period}' and absence_code is null ")
       workers_info.each do |worker_info|
-        create( :period => AppConstant.account_period,
+        create( :period => acc_period,
                 :worker_code => worker_info.worker_code,
-                :date_begin => AppConstant.account_period,
-                :date_end => AppConstant.account_period.at_end_of_month, 
+                :date_begin => worker_info.date > acc_period ? worker_info.date : acc_period,
+                :date_end => acc_period.at_end_of_month, 
                 :schedule_code => worker_info.schedule_code)              
       end
     end
     
   end
 
-  def self.data_of_current_account_period
-    where("period between ? and ?", AppConstant.account_period, AppConstant.account_period.at_end_of_month)
+  #getting data of current account period
+  def self.data_of_current_account_period worker_code=nil, absences=false
+    sql_st = "period = ? "
+    sql_st += " and worker_code='#{worker_code}'" if worker_code
+    sql_st += " and absence_code is not null" if absences
+    where(sql_st, AppConstant.account_period )
   end
+
+  #returns factical workerd hour\day
+  def self.worked_hd_for worker_code, schedule_code
+#    acc_period = AppConstant.account_period
+    t_s = self.where("worker_code = ? and absence_code is null").first
+    shedule_hd = SchOfWorkInformation.get_hour_by_schedule((acc_period..acc_period.at_end_of_month), 
+                                                           schedule_code)
+    arr_of_absences = self.curr_acc_period_absence_dates(worker_code)
+    arr_of_date = []; arr_of_absences.each{|e| arr_of_date << e[:date]}
+    absence_hd = SchOfWorkInformation.get_hour_by_schedule(arr_of_date, schedule_code)
+    unless absence_hd.hour.blank?
+      shedule_hd.hour -= absence_hd.hour
+      shedule_hd.day -= absence_hd.day 
+    end
+
+    return shedule_hd
+  end
+
+  #returns date with absence code hash of array
+  #[{:date => '2012-12-01', :absence => '450'},......]
+  def self.curr_acc_period_absence_dates worker_code
+    absences = self.data_of_current_account_period(worker_code,true)
+    arr_of_date =[]
+    absences.each do |e|
+      (e.date_begin..e.date_end).each{|e_date| arr_of_date << {:date => e_date, :hour => e.absence_code} }
+    end
+    arr_of_date
+  end
+
+  # report time_sheet for worker 
+  # returns hash of arrays
+  def self.report_for worker_code, schedule_code
+    arr = self.curr_acc_period_absence_dates worker_code
+    arr_sel = SchOfWorkInformation.get_for_time_sheet schedule_code
+
+    #replacing
+    arr_sel.map! do |e|
+      seek_a = arr.select{|e_s| e_s[:date] == e[:date] }
+      if !seek_a.blank?
+        e=seek_a[0]
+      else
+        e
+      end
+    end
+
+    res =[]    
+    res << arr_sel[0..7]; res << arr_sel[8..15]; res << arr_sel[16..23]; res << arr_sel[24..-1]
+    res.each do |e|
+      e.each do |e2|
+        date_style = "font-size:12px;padding:5px;text-align:center;"
+        hour_style = "font-size:16px;padding:5px;text-align:center;"
+        if e2[:hour] == 0 
+          date_style += "color:red;"
+          hour_style += "color:white;"
+        elsif e2[:hour].to_f > 8.25
+          date_style += "background-color:#CCC;"
+          hour_style += "background-color:#CCC;"
+        end
+        e2[:date_style]=date_style
+        e2[:hour_style]=hour_style
+      end
+    end
+    return res
+  end
+
+
+
 #-------------------
 
 #object method

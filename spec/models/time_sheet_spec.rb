@@ -41,6 +41,23 @@ describe TimeSheet do
     TimeSheet.count.should == 3
   end
 
+  it ".worked_hd_for" do
+    FactoryGirl.create :absence_450
+    FactoryGirl.create :t_sh_absence_24495
+    TimeSheet.data_of_current_account_period("24495",true).count.should == 1
+    TimeSheet.fill_with_schedule @workers
+
+    worker_hd = TimeSheet.worked_hd_for "24495", "051"
+    worker_hd.should_not be_blank
+    worker_hd.hour.should == 134.5
+    
+  end
+
 end
+
+
+
+
+
 
 

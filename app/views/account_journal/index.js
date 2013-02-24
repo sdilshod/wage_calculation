@@ -1,0 +1,6 @@
+$('#charges tbody').html('<%= charge_to_html(@charges)%>')
+$('#deductions tbody').html('<%= deductions_to_html(@deductions)%>')
+$('#charge_sum').html('<%=sprintf("%0.2f",@charge_sum)%>')
+$('#deduction_sum').html('<%=sprintf("%0.2f",@deductions.sum(:summ))%>')
+$('#to_hand').html('<%=sprintf("%0.2f",(@charges.sum(:summ) - @deductions.sum(:summ)))%>')
+$('#worker_name').html('<%= @worker.name%>')

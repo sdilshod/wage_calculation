@@ -1,0 +1,15 @@
+.row
+  .five.columns
+    = "#{@worker.name} таб№ #{@worker.code}"
+  .three.columns.end
+    = " за #{@acc_period.strftime("%m-%Y")}"
+- @arr.each do |e|
+  .row
+    - e.each do |e2|
+      .one.columns.end{:style => "border:1px solid black;padding:0;"}
+        %div{:style => e2[:date_style]}
+          =e2[:date].strftime("%d.%m")
+        %div{:style => e2[:hour_style]}
+          =e2[:hour]
+
+

@@ -1,6 +1,8 @@
 WageCalculation::Application.routes.draw do
   root :controller => "welcome", :action => "index"
 
+  match 'account_journal' => 'account_journal#index', :as => :account_journal
+  match 'account_journal/report_time_sheet' => 'account_journal#report_time_sheet', :as => :report_time_sheet
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

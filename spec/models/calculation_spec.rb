@@ -44,9 +44,15 @@ describe Calculation do
     Calculation.count.should == 0
     Calculation.charging @workers
     Calculation.count.should == 3   
-    o = Calculation.where("period = ? and worker_code='24495'", AppConstant.account_period).first.summ
+    o = Calculation.where("period = ? and worker_code='24495' and type_of_calc < '600'", AppConstant.account_period).first.summ
 
     o.should == 597778.95
+  end
+
+  it ".deduction" do
+    Calculation.charging @workers    
+    Calculation.deduction
+    Calculation.where("type_of_calc >= '600'").count.should > 1
   end
 
 end

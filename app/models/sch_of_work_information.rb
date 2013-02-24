@@ -23,11 +23,29 @@ class SchOfWorkInformation < ActiveRecord::Base
 #class methods
   
   #sum hour of schedule with given params
-  def self.get_hour_by_schedule(date_begin, date_end, schedule_code)
-    select("sum(hour) as hour, count(hour) as day").
-    where("date between ? and ? and schedule_code = \"#{schedule_code}\" and hour != 0",
-          date_begin.strftime, date_end.strftime).first
+  def self.get_hour_by_schedule(range_or_arr_of_date, schedule_code)
+    case range_or_arr_of_date.class.to_s
+    when "Range"
+      return select("sum(hour) as hour, count(hour) as day").
+      where("date between ? and ? and schedule_code = \"#{schedule_code}\" and hour != 0",
+          range_or_arr_of_date.first.strftime, range_or_arr_of_date.last.strftime).first
+    when "Array"
+      return select("sum(hour) as hour, count(hour) as day").
+      where("date in(?) and schedule_code = \"#{schedule_code}\" and hour != 0",range_or_arr_of_date).first
+    end
   end
+
+  def self.get_for_time_sheet schedule_code
+    acc_period = AppConstant.account_period
+    arr = self.where("date between ? and ? and schedule_code='#{schedule_code}'",
+                                          acc_period.strftime,acc_period.at_end_of_month.strftime).order(:date)
+    a=[]
+    arr.each do |e|
+      a << {:date => e.date, :hour => e.hour}
+    end
+    return a
+  end  
+
 #------------
 
 

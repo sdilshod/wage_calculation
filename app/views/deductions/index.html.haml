@@ -9,9 +9,9 @@
         .row
           .three.columns
             = link_to content_tag('span', "Создать запись" , :class=>"add"), new_deduction_path, {:class => "small button"}
-          = form_tag filling_charges_path do |f|
+          = form_tag filling_deductions_path do |f|
             .three.columns
-              = submit_tag "Начислить за #{AppConstant.account_period}", {:class => "small button"}
+              = submit_tag "Выполнить удержание за #{AppConstant.account_period}", {:class => "small button"}
       %div{:class => "elements"}
         %table{:border=>"1", :class=>"data_table"}
           %thead
@@ -21,7 +21,7 @@
             %th ФИО
             %th Дата начало
             %th Дата окончание
-            %th Код начисление
+            %th Код удеражние
             %th Сумма
             %th{:colspan=>"2"}
           %tbody

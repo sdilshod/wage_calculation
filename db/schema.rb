@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 16) do
+ActiveRecord::Schema.define(:version => 17) do
 
   create_table "absences", :id => false, :force => true do |t|
     t.string  "code",                  :limit => 4
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(:version => 16) do
     t.string  "type_of_calc",                                                                 :null => false
     t.decimal "summ",                       :precision => 10, :scale => 2, :default => 0.0
     t.boolean "auto_reported",                                             :default => false
+    t.integer "day",                                                       :default => 0
+    t.decimal "hour",                       :precision => 10, :scale => 2, :default => 0.0
   end
 
   create_table "cycles", :force => true do |t|
