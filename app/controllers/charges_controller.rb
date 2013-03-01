@@ -3,7 +3,7 @@
 class ChargesController < ApplicationController
 
   def index
-    @charges = Calculation.where("type_of_calc < '600'")
+    @charges = Calculation.where("type_of_calc < '600'").order :period
   end  
 
   def new

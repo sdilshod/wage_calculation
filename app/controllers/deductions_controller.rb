@@ -1,7 +1,7 @@
 # encoding: utf-8
 class DeductionsController < ApplicationController
   def index
-    @deductions = Calculation.where("type_of_calc > '599'")
+    @deductions = Calculation.where("type_of_calc > '599'").order :period
   end  
 
   def new

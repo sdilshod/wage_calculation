@@ -52,12 +52,13 @@
           %a.flyout-toggle{:href=>"#"}
           %ul.flyout
             %li= link_to "Заполнить графиков работы", filling_schedule_of_workings_path
-            %li= link_to "Сформировать табель рабочего времени", filling_schedule_of_workings_path
         %li.has-flyout
           %a{:href=>"#"}Параметры
           %a.flyout-toggle{:href=>"#"}
           %ul.flyout
             %li= link_to "Изменение расчетного периода", app_parameters_account_period_path
+        %li
+          = link_to "Помощь", app_help_url
     %div{:id=>"content"}
       %div
         = yield

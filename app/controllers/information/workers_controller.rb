@@ -5,7 +5,7 @@ class Information::WorkersController < ApplicationController
   
   def index
     respond_to do |format|
-      format.html {@workers = WorkersInformation.all}
+      format.html {@workers = WorkersInformation.order :period}
       format.js {@worker = Worker.find_by_code params[:worker_id]}
     end
   end

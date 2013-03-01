@@ -3,7 +3,7 @@
 class Reference::DepartmentsController < ApplicationController
   
   def index
-    @departments = Department.all
+    @departments = Department.order :code
   end  
 
   def new

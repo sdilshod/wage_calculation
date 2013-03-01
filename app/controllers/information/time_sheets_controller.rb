@@ -5,7 +5,7 @@ class Information::TimeSheetsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html {@t_sheets = TimeSheet.all}
+      format.html {@t_sheets = TimeSheet.order :period}
       format.js {@worker = Worker.find_by_code params[:worker_id]}
     end
   end

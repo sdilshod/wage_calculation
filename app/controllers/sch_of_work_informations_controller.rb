@@ -1,7 +1,7 @@
 class SchOfWorkInformationsController < ApplicationController
   
   def index
-    @sch_of_work_informations = SchOfWorkInformation.find :all
+    @sch_of_work_informations = SchOfWorkInformation.order :date
   end
   
   def new

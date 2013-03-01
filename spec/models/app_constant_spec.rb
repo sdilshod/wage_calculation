@@ -12,5 +12,18 @@
 require 'spec_helper'
 
 describe AppConstant do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before :all do
+    AppConstant.create name: "account_period", const_type: "date", date_: "01.12.2012".to_date
+  end
+
+  after :all do
+    AppConstant.delete_all
+  end
+
+  
+  it ".create_methods" do
+    AppConstant.create_methods
+    AppConstant.methods.should be_include(:account_period)
+    AppConstant.account_period.should == "01.12.2012".to_date
+  end
 end

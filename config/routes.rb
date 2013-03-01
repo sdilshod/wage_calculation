@@ -3,6 +3,7 @@ WageCalculation::Application.routes.draw do
 
   match 'account_journal' => 'account_journal#index', :as => :account_journal
   match 'account_journal/report_time_sheet' => 'account_journal#report_time_sheet', :as => :report_time_sheet
+  match 'help' => 'help#index', :as => :app_help
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

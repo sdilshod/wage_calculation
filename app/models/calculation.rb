@@ -46,13 +46,13 @@ class Calculation < ActiveRecord::Base
   MINIMAL_WAGE=62920.00
   
   #Class methods
+    #wage charge by worked hour or day
     def self.charging workers_information
       return nil if workers_information.blank?
       result = []
       norm_hour_of_month = ScheduleOfWorking.norm_of_working_hour 
       acc_period = AppConstant.account_period
       workers_information.each do |e|
-#        h_d = SchOfWorkInformation.get_hour_by_schedule((acc_period..acc_period.at_end_of_month), e.schedule_code)
         h_d = TimeSheet.worked_hd_for e.worker_code, e.schedule_code
         result << {period: acc_period,
                    worker_code: e.worker_code,
@@ -77,7 +77,8 @@ class Calculation < ActiveRecord::Base
       end
       true
     end
-
+  
+    #wage deduction by charged sum
     def self.deduction
       h = self.total_sum_for_tax_charge.sum(:summ)
       result = []
@@ -107,10 +108,12 @@ class Calculation < ActiveRecord::Base
 
     end
 
+    #gets sum for charging tax
     def self.total_sum_for_tax_charge  
       where("period = ? and type_of_calc = '102'", AppConstant.account_period).group("worker_code") 
     end
 
+    #calculation of tax charge
     def self.calculate_of_tax_charge sum
       # На 01,01,2012 г по налоговому закону УзБР расчет подоходного налого считается по шкале
       # до 5 кратного размера минимального з\п 9%

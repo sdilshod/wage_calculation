@@ -45,11 +45,12 @@ class TimeSheet < ActiveRecord::Base
     return nil if workers_info.blank?
     acc_period = AppConstant.account_period
     transaction do
-      delete_all("period = '#{AppConstant.account_period}' and absence_code is null ")
+      delete_all("period = '#{acc_period}' and absence_code is null ")
+      puts "workers_info.size #{workers_info.size}"
       workers_info.each do |worker_info|
         create( :period => acc_period,
                 :worker_code => worker_info.worker_code,
-                :date_begin => worker_info.date > acc_period ? worker_info.date : acc_period,
+                :date_begin => worker_info.period > acc_period ? worker_info.period : acc_period,
                 :date_end => acc_period.at_end_of_month, 
                 :schedule_code => worker_info.schedule_code)              
       end
@@ -66,13 +67,18 @@ class TimeSheet < ActiveRecord::Base
   end
 
   #returns factical workerd hour\day
+  #method returns AR object with hour and day attributes
   def self.worked_hd_for worker_code, schedule_code
-#    acc_period = AppConstant.account_period
-    t_s = self.where("worker_code = ? and absence_code is null").first
-    shedule_hd = SchOfWorkInformation.get_hour_by_schedule((acc_period..acc_period.at_end_of_month), 
+    t_s = self.where("worker_code = ? and absence_code is null", worker_code).first
+
+    #getting worked hour\day by schedule
+    shedule_hd = SchOfWorkInformation.get_hour_by_schedule((t_s.date_begin..t_s.date_end.at_end_of_month), 
                                                            schedule_code)
+    #getting absences if exists and fill's empty array with absences dates
     arr_of_absences = self.curr_acc_period_absence_dates(worker_code)
     arr_of_date = []; arr_of_absences.each{|e| arr_of_date << e[:date]}
+    
+    #getting absence hou\day value
     absence_hd = SchOfWorkInformation.get_hour_by_schedule(arr_of_date, schedule_code)
     unless absence_hd.hour.blank?
       shedule_hd.hour -= absence_hd.hour
@@ -98,9 +104,11 @@ class TimeSheet < ActiveRecord::Base
   def self.report_for worker_code, schedule_code
     arr = self.curr_acc_period_absence_dates worker_code
     arr_sel = SchOfWorkInformation.get_for_time_sheet schedule_code
+    information_of_worker = WorkersInformation.get_workings_at AppConstant.account_period.at_end_of_month, worker_code
 
-    #replacing
+    #replacing with absence codes and worker's informations
     arr_sel.map! do |e|
+      e[:hour] = -1 if e[:date] < information_of_worker[0].period
       seek_a = arr.select{|e_s| e_s[:date] == e[:date] }
       if !seek_a.blank?
         e=seek_a[0]
@@ -109,8 +117,11 @@ class TimeSheet < ActiveRecord::Base
       end
     end
 
+    #parse arr_sel with 8 rows
     res =[]    
     res << arr_sel[0..7]; res << arr_sel[8..15]; res << arr_sel[16..23]; res << arr_sel[24..-1]
+    
+    #filling report's style
     res.each do |e|
       e.each do |e2|
         date_style = "font-size:12px;padding:5px;text-align:center;"
@@ -121,6 +132,9 @@ class TimeSheet < ActiveRecord::Base
         elsif e2[:hour].to_f > 8.25
           date_style += "background-color:#CCC;"
           hour_style += "background-color:#CCC;"
+        elsif e2[:hour] < 0
+          date_style += "background-color:#CCC;"
+          hour_style += "background-color:#CCC;color:#CCC"
         end
         e2[:date_style]=date_style
         e2[:hour_style]=hour_style

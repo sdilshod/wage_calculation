@@ -1,4 +1,4 @@
-# THIS IS A WAGE CALCULATION APPLICATION
+THIS IS A WAGE CALCULATION APPLICATION
 
 The logic os this app taked from a wage calculation system of the company in Uzbekistan "Navoiyazot"
 (that system already work in desktop app)
@@ -6,6 +6,12 @@ The logic os this app taked from a wage calculation system of the company in Uzb
 This is my own idea.
 
 I will glad if this interested some one
+
+==============================================
+For filling DB with testing datas, run this
+
+rake db:seed
+
 
 
 

@@ -32,11 +32,13 @@ describe Calculation do
     end
 
     @workers = WorkersInformation.get_workings_at @account_period
+    TimeSheet.fill_with_schedule @workers
   end
 
   after(:all) do
     @schedules.destroy
     Department.delete_all; Position.delete_all; WorkersInformation.delete_all; Worker.delete_all
+    TimeSheet.delete_all
   end
 
   it ".charging" do

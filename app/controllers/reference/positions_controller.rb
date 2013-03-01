@@ -3,7 +3,7 @@
 class Reference::PositionsController < ApplicationController
 
   def index
-    @positions = Position.all
+    @positions = Position.order :code
   end  
 
   def new

@@ -3,7 +3,7 @@
 class Reference::WorkersController < ApplicationController
 
   def index
-    @workers = Worker.all
+    @workers = Worker.order :code
   end  
 
   def new
