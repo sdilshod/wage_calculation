@@ -17,6 +17,7 @@ class AccountJournalController < ApplicationController
           render js: "alert('Сотрудник или месяц не выбран')"
           return
         end
+        acc_p = acc_p.at_beginning_of_month
         @charges = Calculation.charges_list w_c, acc_p
         @charge_sum = @charges.sum(:summ)
         @deductions = Calculation.deductions_list w_c, acc_p

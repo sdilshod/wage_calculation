@@ -1,3 +1,11 @@
+= content_for :top_navigation do
+  = link_to "<-- Табель учет отработанного времени", information_time_sheets_path
+%script
+  $(document).ready(function(){
+  new AddElementsToPage().add_calendar_to("#time_sheet_period","12px");
+  new AddElementsToPage().add_calendar_to("#time_sheet_date_begin","12px");
+  new AddElementsToPage().add_calendar_to("#time_sheet_date_end","12px");
+  })
 %div{:style=>"margin-top:10px;"}
   = content_for :message_window do 
     = error_messages(@t_sh)
@@ -5,7 +13,7 @@
   %div{:class => "form_1c", :style => "width:580px;"}
     %div{:class => "form_1c_title"} 
       %span= title
-      %span{:style=>"float:right;"} X
+      %span{:style=>"float:right;"}
     %div{:class=>"form_content"}
       = form_for @t_sh, params_for_form do |f|
         %div{:class => "elements"} 
@@ -13,34 +21,50 @@
             .row
               .two.columns
                 = f.label :period
-              .two.columns.end.custom_text_field
+              .three.columns.end.custom_text_field
                 = f.text_field :period
             .row
               .two.columns
                 = f.label :worker_code
-              .two.columns.custom_text_field
-                = f.text_field :worker_code, :onchange => "$.get('#{information_time_sheets_url}.js', {worker_id : this.value})"
-              .seven.columns.end.custom_text_field
-                %label{:id=>"worker_name"}
+              .six.columns.custom_text_field.end
+                .row.collapse
+                  .three.columns.custom_text_field
+                    = f.text_field :worker_code, :onchange => "$.get('#{information_time_sheets_url}.js', {worker_id : this.value})"
+                  .one.column
+                    = button_tag "...", :type => "button", :onclick => "window.open('#{chooses_worker_url(:changed_el => 'time_sheet_worker_code')}','choosestaffgr', 'status=no,menubar=yes,scrollbars=yes,resizable=yes,width=400,height=400')"
+                  .eight.columns.end.custom_text_field
+                    %label{:id=>"worker_name", :class => "label_in_column" }
+                      = @t_sh.worker.name unless @t_sh.worker.blank?
             .row
               .two.columns
                 = f.label :date_begin
-              .two.columns.custom_text_field
-                = f.text_field :date_begin
-              .two.columns
-                = f.label :date_end
-              .two.columns.end.custom_text_field
-                = f.text_field :date_end
+              .ten.columns.custom_text_field
+                .row.collapse
+                  .three.columns
+                    = f.text_field :date_begin
+                  .three.columns
+                    = f.label :date_end
+                  .three.columns.end.custom_text_field
+                    = f.text_field :date_end
             .row
               .two.columns
                 = f.label :schedule_code
-              .two.columns.end.custom_text_field
-                = f.text_field :schedule_code
+              .four.columns.custom_text_field.end
+                .row.collapse
+                  .two.columns
+                    = f.text_field :schedule_code
+                  .one.column.end
+                    = button_tag "...", :type => "button", :onclick => "window.open('#{chooses_shedule_url(:changed_el => 'time_sheet_schedule_code')}','choosestaffgr', 'status=no,menubar=yes,scrollbars=yes,resizable=yes,width=400,height=400')"
             .row
               .two.columns
                 = f.label :absence_code
-              .two.columns.end.custom_text_field
-                = f.text_field :absence_code
+              .four.columns.end.custom_text_field
+                .row.collapse
+                  .two.columns
+                    = f.text_field :absence_code
+                  .one.column.end
+                    = button_tag "...", :type => "button", :onclick => "window.open('#{chooses_absences_url(:changed_el => 'time_sheet_absence_code')}','choosestaffgr', 'status=no,menubar=yes,scrollbars=yes,resizable=yes,width=400,height=400')"
+
 
         %div{:class => "bottom_tool_box"}
           .row

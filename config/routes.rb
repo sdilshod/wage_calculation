@@ -4,6 +4,13 @@ WageCalculation::Application.routes.draw do
   match 'account_journal' => 'account_journal#index', :as => :account_journal
   match 'account_journal/report_time_sheet' => 'account_journal#report_time_sheet', :as => :report_time_sheet
   match 'help' => 'help#index', :as => :app_help
+
+  #routes for choosing
+    match 'chooses/workers' => 'chooses#workers', :as => :chooses_worker
+    match 'chooses/shedule_of_workers' => 'chooses#shedule_of_workers', :as => :chooses_shedule
+    match 'chooses/absences' => 'chooses#absences', :as => :chooses_absences
+  #=============routes for choosing
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

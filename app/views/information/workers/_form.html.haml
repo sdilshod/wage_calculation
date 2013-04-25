@@ -1,3 +1,9 @@
+= content_for :top_navigation do
+  = link_to "<<-- Сведение о работниках организации", information_workers_path
+%script
+  $(document).ready(function(){
+  new AddElementsToPage().add_calendar_to("#workers_information_period","12px");
+  })
 %div{:style=>"margin-top:10px;"}
   = content_for :message_window do 
     = error_messages(@worker)
@@ -13,15 +19,19 @@
             .row
               .two.columns
                 = f.label :period
-              .two.columns.end.custom_text_field
+              .two.columns.custom_text_field.end
                 = f.text_field :period
             .row
               .two.columns
                 = f.label :worker_code
-              .two.columns.custom_text_field
-                = f.text_field :worker_code, :onchange => "$.get('#{information_time_sheets_url}.js', {worker_id : this.value})"
-              .seven.columns.end.custom_text_field
-                %label{:id=>"worker_name"}
+              .six.columns.end
+                .row.collapse
+                  .two.columns.custom_text_field
+                    = f.text_field :worker_code, :onchange => "$.get('#{information_time_sheets_url}.js', {worker_id : this.value})"
+                  .one.column
+                    = button_tag "...", :type => "button", :onclick => "window.open('#{chooses_worker_url(:changed_el => 'workers_information_worker_code')}','choosestaffgr', 'status=no,menubar=yes,scrollbars=yes,resizable=yes,width=400,height=400')"
+                  .seven.columns.end.custom_text_field
+                    %label{:id=>"worker_name", :style => "padding-left:10px;padding-top:5px;"}
             .row
               .two.columns
                 = f.label :department_code

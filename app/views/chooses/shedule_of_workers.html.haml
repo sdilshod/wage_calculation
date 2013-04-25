@@ -1,0 +1,14 @@
+%p
+  = "======  Выборка кодов графиков  ======"
+%table{:border=>"1", :class=>"data_table"}
+  %thead
+    %th №
+    %th Код графика
+  %tbody
+    - i=1
+    - @schedules.each do |sch|
+      %tr{:style => "cursor:pointer;", :onclick => "var el = $(window.opener.document).find('##{@changed_el}');el.val('#{sch}'); el.change();window.close()"}
+        %th{:scope=>"row"}=i
+        %td=sch
+      - i += 1
+

@@ -54,6 +54,25 @@ $('head').ajaxComplete(function(event, request,setting) {
 /*---*/
 
 function AddElementsToPage(elements) {
+    this.add_calendar_to = function(element_id,font_size){
+        if(font_size == undefined){
+            font_size = "10px"
+        }
+        $(element_id).css({"display":"inline","width":"60%","font-size":font_size});
+        $(element_id).datepicker({  
+            dateFormat: "yy-mm-dd" ,
+            nextText: ">>",
+            prevText: "<<",
+            buttonText: "",
+            showOn: "button",
+            buttonImage: "/assets/calendar.png",
+            buttonImageOnly: true,
+            showOtherMonths: true, 
+            dayNamesMin: ['Вск', 'Пнд', 'Втр', 'Срд', 'Чтв', 'Птн', 'Сбт'],  
+        })
+
+    }
+
     /*elements - is array with name elements whose will be add to page*/    
     this.add_row_to_data_table = function(obj,attributes,selector_table,save_btn, delete_btn){
         rows_of_table = selector_table.find('tbody tr');
@@ -66,16 +85,16 @@ function AddElementsToPage(elements) {
             row_number++;
         }
         
-        var new_row = "<tr><th scope='row'>"+row_number+"</th>";
+        var new_row = "<tr class='row_data_table'><td>"+row_number+"</td>";
 
         $.each(attributes, function(index, item){
-            input_tag = "<input id=\""+obj+"_"+item+"\" name=\""+obj+"["+item+"]\" size=\"10\"  type=\"text\" value=\"\" />";
+            input_tag = "<input id=\""+obj+"_"+item+"_"+row_number+"\" name=\""+obj+"["+item+"]\" size=\"10\"  type=\"text\" value=\"\" />";
             new_row = new_row + "<td>"+input_tag+"</td>";
         })
-        new_row = new_row + "<td><span id='edit_row'>Редактировать</span></td>"
+        new_row = new_row + "<td><span id='edit_row'><img alt='Edit' height='14' src='/assets/panel_tools/edit.png' width='14' /></span></td>"
         new_row = new_row + "<td>"+save_btn+"</td>"
         new_row = new_row + "<td>"+delete_btn+"</td></tr>"
-        selector_table.append(new_row);
+        selector_table.append(new_row)/*.addClass('row_data_table');*/
         return new_row;
     }
     
@@ -102,6 +121,7 @@ function AddElementsToPage(elements) {
         
         /*selection of input tags with type=text*/
         input_tags = $("\"<tr>"+jquery_obj_for_params+"</tr>\"").find('input[type="text"]');
+
         var params = {};
 
         input_tags.each(function(index) {
@@ -110,13 +130,22 @@ function AddElementsToPage(elements) {
           /*Filling hash params for send to server*/
           /*params[objectName[objectFiled]]*/
             f_str = "#"+input_tag.attr("id")
-          params[input_tag.attr("name")] = $(link_id).parent().parent().find(f_str).val();
+          key_name = input_tag.attr("name");
+          if(key_name.match("\[[1-9]+\]")) {
+            params[key_name.replace(/\[[1-9]+\]/, "")] = $(link_id).parent().parent().find(f_str).val();
+
+          }else
+          {
+            params[key_name] = $(link_id).parent().parent().find(f_str).val();
+                
+          }
         });
 
         if(typeof row_id != 'undefined')
         {
             params["row_number"]=row_id
         }
+
         return params;
     }
     

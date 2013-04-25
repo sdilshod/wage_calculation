@@ -1,0 +1,14 @@
+%p
+  = "======  Выборка кодов неявок  ======"
+%table{:border=>"1", :class=>"data_table"}
+  %thead
+    %th №
+    %th Код неявки
+  %tbody
+    - i=1
+    - @absences.each do |ab|
+      %tr{:style => "cursor:pointer;", :onclick => "var el = $(window.opener.document).find('##{@changed_el}');el.val('#{ab.code}'); el.change();window.close()"}
+        %th{:scope=>"row"}=i
+        %td=ab.code
+      - i += 1
+

@@ -1,0 +1,14 @@
+%p
+  = "======  Выборка кодов начислении  ======"
+%table{:border=>"1", :class=>"data_table"}
+  %thead
+    %th №
+    %th Код
+    %th Наименование
+  %tbody
+      %tr{:style => "cursor:pointer;", :onclick => "var el = $(window.opener.document).find('##{@changed_el}');el.val('102'); el.change();window.close()"}
+        %th{:scope=>"row"} 1
+        %td 102
+        %td Повременная оплата
+
+

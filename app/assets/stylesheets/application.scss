@@ -86,6 +86,12 @@ div .form_content{
         padding-top:9px;
     }
 
+/*style for input image(calendar)*/
+.input_calendar{
+  /*padding-left:30px;*/
+  width:100px;
+}
+
 
 /*Link button styles*/
 a.link_button{
@@ -109,6 +115,15 @@ a.link_button{
 	border: 1px solid #CD853F;
 	}
 
+/*Styles for error messages AR*/
+.error_message{
+    
+}
+
+.label_in_column {
+  padding-left:10px;
+  padding-top:5px;
+}
 
 
 

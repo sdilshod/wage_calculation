@@ -6,7 +6,7 @@
       %span{:style=>"float:right;"} X
     %div{:class=>"form_content"}
       %div{:class=> "top_tool_box"}
-        = link_to content_tag('span', "Создать" , :class=>"add"), new_sch_of_work_information_path, :remote => true, :class => "small button"
+        = link_to content_tag('span', "Новый" , :class=>"add"), new_sch_of_work_information_path, :remote => true, :class => "small button"
       %div{:class => "elements"}
         %table{:border=>"1", :class=>"data_table"}
           %thead
@@ -19,7 +19,7 @@
             - @sch_of_work_informations.each do |e|
               %tr{:class => "row_data_table"}
                 %td= @sch_of_work_informations.index(e)+1
-                %td= text_field :sch_of_work_information, :date, :object => e,:size => 10, :style => "border:none;", :readonly => true
+                %td= text_field :sch_of_work_information, :date, :object => e, :index => e.id,:style => "border:none;font-size:10px;width:70px;display:inline", :readonly => true, "data-calendar" => true
                 %td= text_field :sch_of_work_information, :schedule_code, :object => e, :size => 10, :style => "border:none;", :readonly => true
                 %td= text_field :sch_of_work_information, :hour, :object => e, :size => 10, :style => "border:none;", :readonly => true
                 %td= text_field :sch_of_work_information, :night_time, :object => e, :size => 10, :style => "border:none;", :readonly => true
@@ -27,7 +27,8 @@
                 %td= link_to image_tag("panel_tools/save.png", :size=>"14x14"), sch_of_work_information_path(e), :method => :put, :remote => "true", :id => "save_row_#{e.id}", :title => "Сохранить"
                 %td= link_to image_tag("panel_tools/delete.png", :size=>"14x14"), sch_of_work_information_path(e), :method => :delete, :remote => "true", :id => "delete_row_#{e.id}", :title => "Удалить"
 
-      %div{:class => "bottom_tool_box"} Здесь будить пагинация
+      %div{:class => "bottom_tool_box"} 
+        = will_paginate @sch_of_work_informations
 
 
 

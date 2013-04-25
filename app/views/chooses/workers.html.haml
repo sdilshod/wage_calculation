@@ -1,0 +1,16 @@
+%p
+  = "======  Выборка сотрудников  ======"
+%table{:border=>"1", :class=>"data_table"}
+  %thead
+    %th №
+    %th Код
+    %th{:colspan=>"3"} Наименование
+  %tbody
+    - i=1
+    - @workers.each do |worker|
+      %tr{:style => "cursor:pointer;", :onclick => "var el = $(window.opener.document).find('##{@changed_el}');el.val('#{worker.code}'); el.change();window.close()"}
+        %th{:scope=>"row"}=i
+        %td=worker.code
+        %td=worker.name
+      - i += 1
+

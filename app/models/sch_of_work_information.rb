@@ -76,7 +76,7 @@ class SchOfWorkInformation < ActiveRecord::Base
                           joins(:date_of_countings).
                           where("date_countings.session_number=#{session_number}")
     if s.blank?
-      self.errors[:base] = "График - #{sch_number} со смены #{session_number}), не найдено в БД"
+      self.errors[:base] = "График - #{sch_number} со смены #{session_number} не найдено в БД"
     end
   end
 

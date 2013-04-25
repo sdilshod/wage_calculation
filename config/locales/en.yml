@@ -42,11 +42,44 @@ ru:
         code: "Код"
         name: "Наименование"
         holiday_or_dayoffwork: "Праздничный или выходной"
+      sch_of_work_information:
+        schedule_code: "Код графика"
+      workers_information:
+        period: "Период"
+        worker_code: "Табельный номер"
+        department_code: "Код подразделение"
+        position_code: "Код должности"
+        schedule_code: "Код графика"
+        grade: "Разряд"
+        salary: "Оклад"
+        tariff: "Тариф"
+        status: "Статус изменение"
+      time_sheet:
+        period: "Период"
+        worker_code: "Табельный номер"
+        date_begin: "Дата начало действия"
+        date_end: "Дата окончание действия"
+        absence_code: "Код неявки"
+        schedule_code: "Код графика"
+        hour: "Часы"
+      calculation:
+        period: "Период"
+        worker_code: "Табельный номер"
+        date_begin: "Дата начало действия"
+        date_end: "Дата окончание действия"
+        type_of_calc: "Вид расчета"
+        summ: "Сумма"
+        year_month: "Год,месяц"
     errors:
       messages:
-        blank: "не может быть пустым"
-        taken: "уже сушествует"
+        blank: " - не может быть пустым"
+        taken: " - уже сушествует"
+        wrong_length: " - не соответсвии длины"
+        invalid: " - заполнен не верно"
         
   
   title_of_error_message: "Ошибка при проверки"
-
+  will_paginate:
+    previous_label: "&#8592; <<"
+    next_label: ">> &#8594;"
+    page_gap: "&hellip;"

@@ -1,0 +1,41 @@
+#ui-datepicker-div { font-size:11px; }
+.ui-widget{ font-size:11px; }
+
+/*    .ui-datepicker {  
+        width: 216px;  
+        height: auto;  
+        margin: 5px auto 0;  
+        font: 9pt Arial, sans-serif;  
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);  
+        -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);  
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);  
+    }  */
+    .ui-datepicker th {  
+        text-transform: uppercase;  
+        font-size: 6pt;  
+        padding: 5px 0;  
+        color: #666666;  
+        text-shadow: 1px 0px 0px #fff;  
+        filter: dropshadow(color=#fff, offx=1, offy=0);  
+    }  
+    .ui-datepicker tbody td {  
+        padding: 0;  
+        font-size: 10px;  
+    }  
+    .ui-datepicker-prev, .ui-datepicker-next {  
+        display: inline-block;  
+        width: 30px;  
+        height: 30px;  
+        text-align: center;  
+        cursor: pointer;  
+        background-image: url('../img/arrow.png');  
+        background-repeat: no-repeat;  
+        line-height: 600%;  
+        overflow: hidden;  
+    }  
+    .ui-datepicker-trigger{
+        border: none;
+        cursor: pointer;
+    }
+
+

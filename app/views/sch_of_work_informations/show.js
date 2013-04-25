@@ -6,6 +6,7 @@ var link_id = '#<%= "save_row_#{@sch_of_work_info.id}" %>';
 
 var el_tr = $(link_id).parent().parent();
 el_tr.css("background-color","#CCC");
+el_tr.find('input[data-calendar]').parent().find('img').show();
 
 var input_tags = el_tr.find("input[type='text']");
 

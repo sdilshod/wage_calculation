@@ -1,3 +1,8 @@
+%script
+  $(document).ready(function(){
+  new AddElementsToPage().add_calendar_to("#acc_period","12px");
+  })
+
 %div{:style=>"margin-top:10px;"}
   = flash[:notice]
   %div{:class => "form_1c", :style => "width:750px;"}
@@ -8,15 +13,21 @@
       %div{:class=> "top_tool_box"}
         .row
           .one.column
-            Месяц
-          .two.columns.custom_text_field
+            %label{:class => "label_in_column"}
+              Месяц
+          .three.columns.custom_text_field
             = text_field_tag :acc_period, AppConstant.account_period
           .one.columns
-            Таб№
-          .two.columns.custom_text_field
-            = text_field_tag :worker_id, nil, :onchange => "$.get('#{account_journal_url}.js', {worker_id : this.value, acc_period : $('#acc_period').val()})"
-          .four.columns.end
-            %label{id: "worker_name"}
+            %label{:class => "label_in_column"}
+              Таб№
+          .six.columns.custom_text_field.end
+            .row.collapse
+              .two.columns
+                = text_field_tag :worker_id, nil, :onchange => "$.get('#{account_journal_url}.js', {worker_id : this.value, acc_period : $('#acc_period').val()})"
+              .one.column
+                = button_tag "...", :type => "button", :onclick => "window.open('#{chooses_worker_url(:changed_el => 'worker_id')}','choosestaffgr', 'status=no,menubar=yes,scrollbars=yes,resizable=yes,width=400,height=400')"
+              .eight.columns.end
+                %label{id: "worker_name", :class => "label_in_column"}
         .row
           .two.columns
             = button_tag "Табель", :onclick => "var w=$('#worker_id').val();var acc_period=$('#acc_period').val();window.open('#{report_time_sheet_url}'+'?worker_id='+w+'&acc_period='+acc_period,'choosestaffgr', 'status=no,menubar=no,scrollbars=yes,resizable=yes,width=800,height=400')"
@@ -44,12 +55,12 @@
                   %tbody
         .five.columns.end
           .five.column
-            %p Начисление
-            %p Удержание
+            %p Начисленo
+            %p Удержанo
             %p На руки
           .five.columns.end
             .right
-              %p{:id => "charge_sum", :style => "border-bottom: 1px solid black;width:100%;"} 1000000000.00
+              %p{:id => "charge_sum", :style => "border-bottom: 1px solid black;width:100%;"} 0.00
               %p{:id => "deduction_sum", :style => "border-bottom: 1px solid black;"} 0.00
               %p{:id => "to_hand", :style => "border-bottom: 1px solid black;"} 0.00
 

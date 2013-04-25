@@ -1,7 +1,7 @@
 class SchOfWorkInformationsController < ApplicationController
   
   def index
-    @sch_of_work_informations = SchOfWorkInformation.order :date
+    @sch_of_work_informations = SchOfWorkInformation.paginate(:page => params[:page]).order(:date)
   end
   
   def new
@@ -25,6 +25,7 @@ class SchOfWorkInformationsController < ApplicationController
       format.js do
         @sch_of_work_info = SchOfWorkInformation.new(params[:sch_of_work_information])
         @sch_of_work_info.save
+        @err=""
       end
     end
   end
